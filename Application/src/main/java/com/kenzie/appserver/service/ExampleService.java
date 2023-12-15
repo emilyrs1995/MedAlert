@@ -14,14 +14,15 @@ public class ExampleService {
         this.exampleRepository = exampleRepository;
     }
 
-    public Medication findById(String id) {
+    // Emily S (12/15/23) - commented this out so that it wouldn't throw compiler errors
+    /*public Medication findById(String id) {
         Medication medicationFromBackend = exampleRepository
                 .findById(id)
                 .map(example -> new Medication(example.getId(), example.getName()))
                 .orElse(null);
 
         return medicationFromBackend;
-    }
+    }*/
 
     public Medication addNewExample(Medication medication) {
         ExampleRecord exampleRecord = new ExampleRecord();
