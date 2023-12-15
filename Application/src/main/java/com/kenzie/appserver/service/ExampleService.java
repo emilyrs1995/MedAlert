@@ -2,7 +2,7 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.model.ExampleRecord;
 import com.kenzie.appserver.repositories.ExampleRepository;
-import com.kenzie.appserver.service.model.Example;
+import com.kenzie.appserver.service.model.Medication;
 
 import org.springframework.stereotype.Service;
 
@@ -14,20 +14,20 @@ public class ExampleService {
         this.exampleRepository = exampleRepository;
     }
 
-    public Example findById(String id) {
-        Example exampleFromBackend = exampleRepository
+    public Medication findById(String id) {
+        Medication medicationFromBackend = exampleRepository
                 .findById(id)
-                .map(example -> new Example(example.getId(), example.getName()))
+                .map(example -> new Medication(example.getId(), example.getName()))
                 .orElse(null);
 
-        return exampleFromBackend;
+        return medicationFromBackend;
     }
 
-    public Example addNewExample(Example example) {
+    public Medication addNewExample(Medication medication) {
         ExampleRecord exampleRecord = new ExampleRecord();
-        exampleRecord.setId(example.getId());
-        exampleRecord.setName(example.getName());
+        exampleRecord.setId(medication.getId());
+        exampleRecord.setName(medication.getName());
         exampleRepository.save(exampleRecord);
-        return example;
+        return medication;
     }
 }
