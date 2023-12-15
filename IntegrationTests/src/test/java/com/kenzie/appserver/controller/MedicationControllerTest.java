@@ -3,7 +3,7 @@ package com.kenzie.appserver.controller;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.ExampleCreateRequest;
 import com.kenzie.appserver.service.ExampleService;
-import com.kenzie.appserver.service.model.Example;
+import com.kenzie.appserver.service.model.Medication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @IntegrationTest
-class ExampleControllerTest {
+class MedicationControllerTest {
     @Autowired
     private MockMvc mvc;
 
@@ -39,9 +39,9 @@ class ExampleControllerTest {
         String id = UUID.randomUUID().toString();
         String name = mockNeat.strings().valStr();
 
-        Example example = new Example(id, name);
-        Example persistedExample = exampleService.addNewExample(example);
-        mvc.perform(get("/example/{id}", persistedExample.getId())
+        Medication medication = new Medication(id, name);
+        Medication persistedMedication = exampleService.addNewExample(medication);
+        mvc.perform(get("/example/{id}", persistedMedication.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id")
                         .value(is(id)))

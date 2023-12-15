@@ -2,7 +2,7 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.ExampleRepository;
 import com.kenzie.appserver.repositories.model.ExampleRecord;
-import com.kenzie.appserver.service.model.Example;
+import com.kenzie.appserver.service.model.Medication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ExampleServiceTest {
+public class MedicationServiceTest {
     private ExampleRepository exampleRepository;
     private ExampleService exampleService;
 
@@ -37,12 +37,12 @@ public class ExampleServiceTest {
 
         // WHEN
         when(exampleRepository.findById(id)).thenReturn(Optional.of(record));
-        Example example = exampleService.findById(id);
+        Medication medication = exampleService.findById(id);
 
         // THEN
-        Assertions.assertNotNull(example, "The object is returned");
-        Assertions.assertEquals(record.getId(), example.getId(), "The id matches");
-        Assertions.assertEquals(record.getName(), example.getName(), "The name matches");
+        Assertions.assertNotNull(medication, "The object is returned");
+        Assertions.assertEquals(record.getId(), medication.getId(), "The id matches");
+        Assertions.assertEquals(record.getName(), medication.getName(), "The name matches");
     }
 
     @Test
@@ -53,10 +53,10 @@ public class ExampleServiceTest {
         when(exampleRepository.findById(id)).thenReturn(Optional.empty());
 
         // WHEN
-        Example example = exampleService.findById(id);
+        Medication medication = exampleService.findById(id);
 
         // THEN
-        Assertions.assertNull(example, "The example is null when not found");
+        Assertions.assertNull(medication, "The example is null when not found");
     }
 
 }
