@@ -22,30 +22,30 @@ public class ExampleController {
         this.exampleService = exampleService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ExampleResponse> get(@PathVariable("id") String id) {
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ExampleResponse> get(@PathVariable("id") String id) {
+//
+//        Medication medication = exampleService.findById(id);
+//        if (medication == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        ExampleResponse exampleResponse = new ExampleResponse();
+//        exampleResponse.setId(medication.getId());
+//        exampleResponse.setName(medication.getName());
+//        return ResponseEntity.ok(exampleResponse);
+//    }
 
-        Medication medication = exampleService.findById(id);
-        if (medication == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ExampleResponse exampleResponse = new ExampleResponse();
-        exampleResponse.setId(medication.getId());
-        exampleResponse.setName(medication.getName());
-        return ResponseEntity.ok(exampleResponse);
-    }
-
-    @PostMapping
-    public ResponseEntity<ExampleResponse> addNewConcert(@RequestBody ExampleCreateRequest exampleCreateRequest) {
-        Medication medication = new Medication(randomUUID().toString(),
-                exampleCreateRequest.getName());
-        exampleService.addNewExample(medication);
-
-        ExampleResponse exampleResponse = new ExampleResponse();
-        exampleResponse.setId(medication.getId());
-        exampleResponse.setName(medication.getName());
-
-        return ResponseEntity.created(URI.create("/example/" + exampleResponse.getId())).body(exampleResponse);
-    }
+//    @PostMapping
+//    public ResponseEntity<ExampleResponse> addNewConcert(@RequestBody ExampleCreateRequest exampleCreateRequest) {
+//        Medication medication = new Medication(randomUUID().toString(),
+//                exampleCreateRequest.getName());
+//        exampleService.addNewExample(medication);
+//
+//        ExampleResponse exampleResponse = new ExampleResponse();
+//        exampleResponse.setId(medication.getId());
+//        exampleResponse.setName(medication.getName());
+//
+//        return ResponseEntity.created(URI.create("/example/" + exampleResponse.getId())).body(exampleResponse);
+//    }
 }
