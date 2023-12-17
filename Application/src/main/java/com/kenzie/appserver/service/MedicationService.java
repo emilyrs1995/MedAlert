@@ -19,6 +19,18 @@ public class MedicationService {
         this.medicationRepository = medicationRepository;
     }
 
+    public List<Medication> findByName(String medicationName) {
+        List<Medication> deletedMedication = new ArrayList<>();
+
+        List<Medication> allMedication = this.getAllMedications();
+        for (Medication medication : allMedication) {
+            if (medication.getName().equals(medicationName)) {
+                deletedMedication.add(medication);
+            }
+        }
+        return deletedMedication;
+    }
+
     public Medication findById(String id) {
 
         return medicationRepository
