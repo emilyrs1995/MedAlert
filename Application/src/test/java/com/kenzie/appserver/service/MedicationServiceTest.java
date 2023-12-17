@@ -103,7 +103,7 @@ public class MedicationServiceTest {
     }
 
     /** ------------------------------------------------------------------------
-     *  exampleService.updateMedication
+     *  medicationService.updateMedication
      *  ------------------------------------------------------------------------ **/
     @Test
     void updateMedication_withValidInput_updatesMedication() {
@@ -139,8 +139,21 @@ public class MedicationServiceTest {
         Assertions.assertEquals(record.getAlertDays(), medication.getAlertDays(), "Expected medication alertDays to match.");
     }
 
+    @Test
+    void updateMedication_withInvalidInput_doesNotUpdateMedication() {
+        // GIVEN
+        Medication medication = new Medication(null, null, null, null, null, null);
+        when(medicationRepository.existsById(medication.getId())).thenReturn(false);
+
+        // WHEN
+        medicationService.updateMedication(medication);
+
+        // THEN
+        verify(medicationRepository, never()).save(new MedicationRecord());
+    }
+
     /** ------------------------------------------------------------------------
-     *  exampleService.getAllMedications
+     *  medicationService.getAllMedications
      *  ------------------------------------------------------------------------ **/
     @Test
     void getAllMedications_returnsListOfMedication() {
@@ -204,7 +217,7 @@ public class MedicationServiceTest {
     }
 
     /** ------------------------------------------------------------------------
-     *  exampleService.deleteMedication
+     *  medicationService.deleteMedication
      *  ------------------------------------------------------------------------ **/
     @Test
     void deleteMedication_withValidId_deletedMedication() {
@@ -234,5 +247,15 @@ public class MedicationServiceTest {
         // THEN
         verify(medicationRepository).delete(record);
         assertThat(addedMedication).isNotNull();
+    }
+
+    @Test
+    void deleteMedication_withInvalidInput_doesNotDeleteMedication() {
+        String id = UUID.randomUUID().toString();
+        when(medicationRepository.findById(id)).thenReturn(Optional.empty());
+
+        medicationService.deleteMedication(id);
+
+        verify(medicationRepository, never()).delete(new MedicationRecord());
     }
 }
