@@ -20,15 +20,15 @@ public class MedicationService {
     }
 
     public List<Medication> findByName(String medicationName) {
-        List<Medication> deletedMedication = new ArrayList<>();
+        List<Medication> medications = new ArrayList<>();
 
         List<Medication> allMedication = this.getAllMedications();
         for (Medication medication : allMedication) {
             if (medication.getName().equals(medicationName)) {
-                deletedMedication.add(medication);
+                medications.add(medication);
             }
         }
-        return deletedMedication;
+        return medications;
     }
 
     public Medication findById(String id) {
