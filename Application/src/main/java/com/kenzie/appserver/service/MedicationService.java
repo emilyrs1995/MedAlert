@@ -4,11 +4,13 @@ import com.kenzie.appserver.repositories.MedicationRepository;
 import com.kenzie.appserver.repositories.model.MedicationRecord;
 import com.kenzie.appserver.service.model.Medication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class MedicationService {
     private MedicationRepository medicationRepository;
 
@@ -21,16 +23,17 @@ public class MedicationService {
 
         return medicationRepository
                 .findById(id)
-                .map(medciation -> new Medication(medciation.getId(), medciation.getName(), medciation.getTimeOfDay(),
-                        medciation.getDosage(), medciation.getAlertTime(), medciation.getAlertDays()))
+                .map(medication -> new Medication(medication.getName(), medication.getId(), medication.getTimeOfDay(),
+                        medication.getDosage(), medication.getAlertTime(), medication.getAlertDays()))
                 .orElse(null);
     }
 
     public Medication addNewMedication(Medication medication) {
-       MedicationRecord medicationRecord = makeMedicationRecord(medication);
+        MedicationRecord medicationRecord = makeMedicationRecord(medication);
         medicationRepository.save(medicationRecord);
         return medication;
     }
+
     public void updateMedication(Medication medication){
         if(medicationRepository.existsById(medication.getId())){
             MedicationRecord medicationRecord = makeMedicationRecord(medication);
@@ -63,8 +66,8 @@ public class MedicationService {
         medicationRecord.setName(medication.getName());
         medicationRecord.setTimeOfDay(medication.getTimeOfDay());
         medicationRecord.setDosage(medication.getDosage());
-        medicationRecord.setAlertTime(medicationRecord.getAlertTime());
-        medicationRecord.setAlertDays(medicationRecord.getAlertDays());
+        medicationRecord.setAlertTime(medication.getAlertTime());
+        medicationRecord.setAlertDays(medication.getAlertDays());
         return medicationRecord;
     }
 }

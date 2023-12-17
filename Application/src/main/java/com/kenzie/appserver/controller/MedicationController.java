@@ -25,7 +25,7 @@ public class MedicationController {
     }
     @PostMapping
     public ResponseEntity<MedicationResponse> createMedication(@RequestBody MedicationCreateRequest createRequest){
-        Medication medication = new Medication(randomUUID().toString(), createRequest.getName(),
+        Medication medication = new Medication(createRequest.getName(), randomUUID().toString(),
                 createRequest.getTimeOfDay(), createRequest.getDosage(), createRequest.getAlertTime(),
                 createRequest.getAlertDays());
         medicationService.addNewMedication(medication);
