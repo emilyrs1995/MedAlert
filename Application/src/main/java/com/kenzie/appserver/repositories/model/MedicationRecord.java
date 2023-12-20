@@ -24,7 +24,9 @@ public class MedicationRecord {
         return name;
     }
 
-    @DynamoDBRangeKey(attributeName = "Id")
+    // 12/19/2023 Joseph
+    // I changed from rangekey, so local host could start
+    @DynamoDBAttribute(attributeName = "Id")
     public String getId() {
         return id;
     }
