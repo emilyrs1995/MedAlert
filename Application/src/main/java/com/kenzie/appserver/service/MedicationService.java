@@ -13,15 +13,11 @@ import java.util.Optional;
 @Service
 public class MedicationService {
 
-    // Emily S. 12/21 - added the alert Service to create/delete/update alert objects
     private MedicationRepository medicationRepository;
 
-    private AlertService alertService;
-
     @Autowired
-    public MedicationService(MedicationRepository medicationRepository, AlertService alertService){
+    public MedicationService(MedicationRepository medicationRepository){
         this.medicationRepository = medicationRepository;
-        this.alertService = alertService;
     }
 
     public List<Medication> findByName(String medicationName) {
@@ -48,11 +44,6 @@ public class MedicationService {
     public Medication addNewMedication(Medication medication) {
         MedicationRecord medicationRecord = makeMedicationRecord(medication);
         medicationRepository.save(medicationRecord);
-
-        // Emily S. 12/21 - using the alertService to add alerts to the table and so on
-        // this is functional but the logic in the alert Service doesn't work yet, so commented out for now.
-        // alertService.addAlerts(medication);
-
         return medication;
     }
 
@@ -60,9 +51,6 @@ public class MedicationService {
         if(medicationRepository.existsById(medication.getName())){
             MedicationRecord medicationRecord = makeMedicationRecord(medication);
             medicationRepository.save(medicationRecord);
-
-            // Emily S. 12/21 - I haven't gotten this to work so it's commented out for now
-            // alertService.updateAlerts(medication);
         }
     }
 
@@ -83,10 +71,6 @@ public class MedicationService {
         if(medicationRecord.isPresent()){
             MedicationRecord deleteRecord = medicationRecord.get();
             medicationRepository.delete(deleteRecord);
-
-            // Emily S. 12/21 - using the alertService to delete the alerts when the medication is deleted
-            // also not functioning correctly so commented out for now
-            // alertService.deleteAlerts(medication);
         }
     }
     private MedicationRecord makeMedicationRecord(Medication medication){

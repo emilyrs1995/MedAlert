@@ -13,9 +13,9 @@ import java.util.List;
 
 // Emily S. 12/21 - saving in case we decide to go this route down the line
 
-//@Service
-//public class AsynchronousService {
-//
+@Service
+public class AsynchronousService {
+
 //    @Value("${time.to.repeat.medication.alert}")
 //    private Integer timeToRepeatAlert;
 //
@@ -30,4 +30,4 @@ import java.util.List;
 //        List<Alert> alerts = applicationContext.getBean(List.class);
 //        executorService.execute(new CreateAlertTask(timeToRepeatAlert, alerts, alertService));
 //    }
-//}
+}
