@@ -120,7 +120,7 @@ public class MedicationServiceTest {
         Medication medication = new Medication(name, id, timeOfDay, dosage, alertTime, alertDays);
 
         ArgumentCaptor<MedicationRecord> medicationRecordCaptor = ArgumentCaptor.forClass(MedicationRecord.class);
-        when(medicationRepository.existsById(id)).thenReturn(true);
+        when(medicationRepository.existsById(name)).thenReturn(true);
 
         // WHEN
         medicationService.updateMedication(medication);

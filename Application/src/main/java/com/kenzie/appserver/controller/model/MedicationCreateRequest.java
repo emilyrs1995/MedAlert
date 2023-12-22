@@ -1,9 +1,9 @@
 package com.kenzie.appserver.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.checkerframework.checker.units.qual.N;
 
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MedicationCreateRequest {
@@ -19,8 +19,15 @@ public class MedicationCreateRequest {
     @NotEmpty
     @JsonProperty("alertTime")
     private String alertTime;
+    @NotEmpty
     @JsonProperty("alertDays")
     private List<String> alertDays;
+
+
+    // Emily S. 12/21 - saving in case we revert back to using the LocalDateTime
+//    @NotEmpty
+//    @JsonProperty("alertDays")
+//    private List<LocalDateTime> alertDays;
 
     public String getName() {
         return name;
@@ -61,4 +68,15 @@ public class MedicationCreateRequest {
     public void setAlertDays(List<String> alertDays) {
         this.alertDays = alertDays;
     }
+
+
+
+// Emily S. 12/21 - saving in case we revert back to using the LocalDateTime
+//    public List<LocalDateTime> getAlertDays() {
+//        return alertDays;
+//    }
+//
+//    public void setAlertDays(List<LocalDateTime> alertDays) {
+//        this.alertDays = alertDays;
+//    }
 }

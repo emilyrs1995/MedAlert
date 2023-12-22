@@ -2,9 +2,10 @@ package com.kenzie.appserver.repositories.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +19,9 @@ public class MedicationRecord {
     private String dosage; // ex. 1 pill
     private String alertTime; // ex. 8:00 am
     private List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
+
+    // Emily S. 12/21 - saving in case we revert back to using the LocalDateTime with the converter class
+    // private List<LocalDateTime> alertDays;
 
     @DynamoDBHashKey(attributeName = "Name")
     public String getName() {
@@ -75,6 +79,17 @@ public class MedicationRecord {
         this.alertDays = alertDays;
     }
 
+    // Emily S. 12/21 - saving in case we revert back to using the LocalDateTime with the converter class
+//    @DynamoDBTypeConverted(converter = LocalDateTimeListConverter.class)
+//    @DynamoDBAttribute(attributeName = "alertDays")
+//    public List<LocalDateTime> getAlertDays() {
+//        return alertDays;
+//    }
+//
+//    public void setAlertDays(List<LocalDateTime> alertDays) {
+//        this.alertDays = alertDays;
+//    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -92,4 +107,5 @@ public class MedicationRecord {
     public int hashCode() {
         return  Objects.hash(name, id);
     }
+
 }

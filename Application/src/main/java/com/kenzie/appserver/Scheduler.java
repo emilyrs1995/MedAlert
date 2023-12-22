@@ -6,14 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Scheduler {
+    // Create any asynchronous services
 
-//    // Create any asynchronous services
-//
+
+    // Emily S. 12/21 - saving in case we use the Scheduler
 //    @Autowired
 //    private AsynchronousService checkAsyncService;
 //
-
-//    @Scheduled(fixedDelay = 200)
+//
+//    @Scheduled(fixedDelay = 30000)
 //    public void schedule() {
 //        checkAsyncService.executeAsynchronously();
 //    }

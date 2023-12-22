@@ -12,11 +12,16 @@ import java.util.Optional;
 
 @Service
 public class MedicationService {
+
+    // Emily S. 12/21 - added the alert Service to create/delete/update alert objects
     private MedicationRepository medicationRepository;
 
+    private AlertService alertService;
+
     @Autowired
-    public MedicationService(MedicationRepository medicationRepository){
+    public MedicationService(MedicationRepository medicationRepository, AlertService alertService){
         this.medicationRepository = medicationRepository;
+        this.alertService = alertService;
     }
 
     public List<Medication> findByName(String medicationName) {
@@ -43,13 +48,21 @@ public class MedicationService {
     public Medication addNewMedication(Medication medication) {
         MedicationRecord medicationRecord = makeMedicationRecord(medication);
         medicationRepository.save(medicationRecord);
+
+        // Emily S. 12/21 - using the alertService to add alerts to the table and so on
+        // this is functional but the logic in the alert Service doesn't work yet, so commented out for now.
+        // alertService.addAlerts(medication);
+
         return medication;
     }
 
     public void updateMedication(Medication medication){
-        if(medicationRepository.existsById(medication.getId())){
+        if(medicationRepository.existsById(medication.getName())){
             MedicationRecord medicationRecord = makeMedicationRecord(medication);
             medicationRepository.save(medicationRecord);
+
+            // Emily S. 12/21 - I haven't gotten this to work so it's commented out for now
+            // alertService.updateAlerts(medication);
         }
     }
 
@@ -65,11 +78,15 @@ public class MedicationService {
         return medications;
     }
 
-    public void deleteMedication(String medicationId){
-        Optional<MedicationRecord> medicationRecord = medicationRepository.findById(medicationId);
+    public void deleteMedication(String medication){
+        Optional<MedicationRecord> medicationRecord = medicationRepository.findById(medication);
         if(medicationRecord.isPresent()){
             MedicationRecord deleteRecord = medicationRecord.get();
             medicationRepository.delete(deleteRecord);
+
+            // Emily S. 12/21 - using the alertService to delete the alerts when the medication is deleted
+            // also not functioning correctly so commented out for now
+            // alertService.deleteAlerts(medication);
         }
     }
     private MedicationRecord makeMedicationRecord(Medication medication){

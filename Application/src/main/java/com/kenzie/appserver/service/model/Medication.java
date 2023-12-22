@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Medication {
@@ -9,6 +10,10 @@ public class Medication {
     private final String dosage; // ex. 1 pill
     private final String alertTime; // ex. 8:00 am
     private final List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
+
+
+    // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
+//    private final List<LocalDateTime> alertDays; // list of alert days/times
 
     public Medication(String name, String id, String timeOfDay, String dosage, String alertTime, List<String> alertDays) {
         this.name = name;
@@ -42,4 +47,9 @@ public class Medication {
     public List<String> getAlertDays() {
         return alertDays;
     }
+
+    // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
+//    public List<LocalDateTime> getAlertDays() {
+//        return alertDays;
+//    }
 }
