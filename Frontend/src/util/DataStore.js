@@ -1,4 +1,4 @@
-import BaseClass from "./baseClass";
+import BaseClass from "./baseClass.js";
 
 /**
  * Stores all of the data across the state. When the state changes in any way, execute all of the listeners registered

@@ -1,4 +1,4 @@
-import Toastify from "toastify-js";
+import Toastify from "../../node_modules/toastify-js/src/toastify.js";
 
 export default class BaseClass {
     /**
