@@ -47,9 +47,17 @@ module.exports = {
           to: path.resolve("dist/css")
         },
         {
-          from: path.resolve('src/mylol2'),
-          to: path.resolve('dist/mylol2')
-        }
+          from: path.resolve('src/pages'),
+          to: path.resolve('dist/pages')
+        },
+        {
+                  from: path.resolve('src/api'),
+                  to: path.resolve('dist/api')
+                },
+                {
+                                  from: path.resolve('src/util'),
+                                  to: path.resolve('dist/util')
+                                }
       ]
     }),
     new CleanWebpackPlugin()
