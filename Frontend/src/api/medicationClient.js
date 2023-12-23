@@ -1,5 +1,5 @@
 import BaseClass from "../util/baseClass.js";
-import axios from '../../node_modules/axios/lib/axios.js'
+import axios from 'axios'
 
 /**
  * This could be a great place to explore Mixins. Currently the client is being loaded multiple times on each page,
