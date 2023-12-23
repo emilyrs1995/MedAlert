@@ -26,8 +26,7 @@ public class MedicationController {
     @PostMapping
     public ResponseEntity<MedicationResponse> createMedication(@RequestBody MedicationCreateRequest createRequest){
         Medication medication = new Medication(createRequest.getName(), randomUUID().toString(),
-                createRequest.getTimeOfDay(), createRequest.getDosage(), createRequest.getAlertTime(),
-                createRequest.getAlertDays());
+                createRequest.getTimeOfDay(), createRequest.getDosage(), createRequest.getAlertTime(), createRequest.getAlertDays());
         medicationService.addNewMedication(medication);
 
         MedicationResponse response = createMedicationResponse(medication);
@@ -78,13 +77,8 @@ public class MedicationController {
     }
 
     @DeleteMapping("/{medication}")
-    public ResponseEntity deleteMedication(@PathVariable("medication") String medicationName) {
-        List<Medication> medicationToBeDeleted = medicationService.findByName(medicationName);
-        if (medicationToBeDeleted != null) {
-            for (Medication medication : medicationToBeDeleted) {
-                medicationService.deleteMedication(medication.getId());
-            }
-        }
+    public ResponseEntity deleteMedication(@PathVariable("medication") String medication) {
+        medicationService.deleteMedication(medication);
         return ResponseEntity.noContent().build();
     }
 

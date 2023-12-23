@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class MedicationService {
+
     private MedicationRepository medicationRepository;
 
     @Autowired
@@ -47,7 +48,7 @@ public class MedicationService {
     }
 
     public void updateMedication(Medication medication){
-        if(medicationRepository.existsById(medication.getId())){
+        if(medicationRepository.existsById(medication.getName())){
             MedicationRecord medicationRecord = makeMedicationRecord(medication);
             medicationRepository.save(medicationRecord);
         }
@@ -65,8 +66,8 @@ public class MedicationService {
         return medications;
     }
 
-    public void deleteMedication(String medicationId){
-        Optional<MedicationRecord> medicationRecord = medicationRepository.findById(medicationId);
+    public void deleteMedication(String medication){
+        Optional<MedicationRecord> medicationRecord = medicationRepository.findById(medication);
         if(medicationRecord.isPresent()){
             MedicationRecord deleteRecord = medicationRecord.get();
             medicationRepository.delete(deleteRecord);
