@@ -9,7 +9,7 @@ class MedicationPage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods('onCreate', this);
+        this.bindClassMethods(['onCreate'], this);
         this.dataStore = new DataStore();
         /*this.timeOfDay = document.querySelector('#action_select').value;
         this.dosage = document.querySelector('.input_description').value;
