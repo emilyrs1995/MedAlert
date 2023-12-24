@@ -4,7 +4,7 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
-    <script type="text/javascript" src="elements.js"></script>
+    <script type="module" src="elements.js"></script>
     <script type="module" src="medicationPage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -52,7 +52,7 @@
             </div>
             <!--   End cont_todo_list_top  -->
         </div>
-        <form class="cont_crear_new" id="yourFormId">
+        <form class="cont_crear_new" id="FormId">
             <table class="table">
                 <tr>
                     <th>Time</th>
@@ -106,7 +106,7 @@
                     <td>
                 <tr>
                     <td colspan="3">
-                        <button class="btn_add_fin" type="submit">ADD</button>
+                        <button class="btn_add_fin" type="submit" onclick="add_to_list()">ADD</button>
                     </td>
                 </tr>
             </table>
