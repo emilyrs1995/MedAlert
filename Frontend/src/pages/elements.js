@@ -1,7 +1,7 @@
 var contador = 0,
     select_opt = 0;
 
-function add_to_list() {
+window.add_to_list = function() {
     var action = document.querySelector('#action_select').value,
         description = document.querySelector('.input_description').value,
         title = document.querySelector('.input_title_desc').value,
@@ -49,7 +49,7 @@ function add_to_list() {
 
 }
 
-function finish_action(num, num2) {
+window.finish_action = function(num, num2) {
 
     var class_li = ['list_morning list_dsp_true', 'list_evening  list_dsp_true', 'list_afternoon list_dsp_true'];
     console.log('.li_num_' + num2);
@@ -79,7 +79,7 @@ function del_finish() {
 }
 var t = 0;
 
-function add_new() {
+window.add_new = function() {
     if (t % 2 == 0) {
         document.querySelector('.cont_crear_new').className = "cont_crear_new cont_crear_new_active";
 
