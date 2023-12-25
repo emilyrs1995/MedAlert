@@ -8,7 +8,9 @@ module.exports = {
     usedExports: true
   },
   entry: {
-    examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
+    //examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
+    elements: path.resolve(__dirname, 'src', 'pages', 'elements.js'),
+    medicationPage: path.resolve(__dirname, 'src', 'pages', 'medicationPage.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -45,7 +47,19 @@ module.exports = {
         {
           from: path.resolve('src/css'),
           to: path.resolve("dist/css")
-        }
+        },
+//        {
+//          from: path.resolve('src/pages'),
+//          to: path.resolve('dist/pages')
+//        },
+       // {
+      //            from: path.resolve('src/api'),
+       //           to: path.resolve('dist/api')
+       //         },
+                //{
+                //                  from: path.resolve('src/util'),
+               //                   to: path.resolve('dist/util')
+                //                }
       ]
     }),
     new CleanWebpackPlugin()
