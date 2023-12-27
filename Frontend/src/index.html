@@ -1,40 +1,34 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="module" src="elements.js"></script>
     <script type="module" src="medicationPage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
-
 <body class="background">
 <header class="header" id="header">
     <div class="site-title">
         <a class="header_home" href="index.html">Example App</a>
     </div>
 </header>
-<div class="cont_principal">
+<div class="page" id="homePage">
     <div class="cont_centrar">
         <div class="cont_todo_list_top">
             <div class="cont_titulo_cont">
                 <h3>
                     <div id="dateWidget"></div>
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
+                        document.addEventListener('DOMContentLoaded', function () {
                             const dateWidget = document.getElementById('dateWidget');
 
                             // Function to update the date
                             function updateDate() {
                                 const currentDate = new Date();
-                                const options = {
-                                    weekday: 'short',
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: 'numeric'
-                                };
+                                const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
                                 const formattedDate = currentDate.toLocaleDateString('en-US', options);
                                 dateWidget.textContent = `Today's Medication | ${formattedDate}`;
                             }
@@ -106,7 +100,7 @@
                     <td>
                 <tr>
                     <td colspan="3">
-                        <button class="btn_add_fin" type="submit" onclick="add_to_list()">ADD</button>
+                        <button class="btn_add_fin"  onclick="add_to_list()">ADD</button>
                     </td>
                 </tr>
             </table>
@@ -124,7 +118,7 @@
                     </div>
                     <div class="col_md_3_list">
                         <div class="cont_text_date">
-                            <p>8:00 AM</p>
+                            <p>8:00</p>
                         </div>
                         <div class="cont_btns_options">
                             <ul>
@@ -134,39 +128,102 @@
                     </div>
                 </li>
                 <!-- <li class="list_evening"></li>
-               <li class="list_afternoont"></li>
+                   <li class="list_afternoont"></li>
 
-               -->
+                   -->
             </ul>
             <!-- markup structure
-           nav, a wrapping container for a series of link elements
-             a, each anchor link element nesting an SVG icon and a span describing the link
-           -->
-            <nav>
-                <a class="active" href="#">
-                    <svg viewBox="0 0 100 100">
-                        <g transform="translate(10 5) scale(0.8 0.9)">
-                            <path d="M 0 30 v 70 h 100 v -70 l -50 -30 z" stroke="currentColor" stroke-width="10" fill="none" stroke-linejoin="round" stroke-linecap="round" />
-                        </g>
-                    </svg>
-                    <span>
-                            Home
-                        </span>
-                </a>
-                <a href="#">
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M1 1h15M1 7h15M1 13h15" />
-                    </svg>
-                    <span>
-                            List
-                        </span>
-                </a>
-            </nav>
+               nav, a wrapping container for a series of link elements
+                 a, each anchor link element nesting an SVG icon and a span describing the link
+               -->
             <!--   End cont_todo_list_top  -->
         </div>
         <!--   End cont_central  -->
     </div>
 </div>
-</body>
+<nav>
+    <a class="active" href="#">
+        <svg viewBox="0 0 100 100">
+            <g transform="translate(10 5) scale(0.8 0.9)">
+                <path d="M 0 30 v 70 h 100 v -70 l -50 -30 z" stroke="currentColor" stroke-width="10" fill="none"
+                      stroke-linejoin="round" stroke-linecap="round" />
+            </g>
+        </svg>
+        <span>
+            Home
+            </span>
+    </a>
+    <a href="#">
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M1 1h15M1 7h15M1 13h15"/>
+        </svg>
+        <span>
+            List
+            </span>
+    </a>
+</nav>
+<div class="page" id="listPage">
+    <div class="cont_centrar">
+        <div class="cont_todo_list_top">
+            <div class="cont_titulo_cont">
+                <h3>List of All Medication | Search by Name</h3>
+            </div>
+            <div class="cont_add_titulo_cont"><a href="#e" onclick="add_search()"><i class="material-icons">search</i></a>
+            </div>
+            <!--   End cont_todo_list_top  -->
+        </div>
+        <div class="cont_crear_new">
+            <table class="table">
+                <tr>
+                    <th class="titl_description" >Search</th>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="text" class="input_description" required placeholder= "Enter medication name"/>
+                    </td>
+                </tr>
+                <td>
+                    <tr>
+                <td colspan="3">
+                    <button class="btn_add_fin"  onclick="add_to_list()">GO</button>
+                </td>
+                </tr>
+            </table>
+            <!--   End cont_crear_new  -->
+        </div>
+        <div class="cont_princ_lists">
+            <ul>
+                <li class="list_morning li_num_0_1">
+                    <div class="col_md_1_list">
+                        <p>MORNING</p>
+                    </div>
+                    <div class="col_md_2_list">
+                        <h4>Aspirin</h4>
+                        <p>1 pill</p>
+                    </div>
+                    <div class="col_md_3_list">
+                        <div class="cont_text_date">
+                            <p>8:00</p>
+                        </div>
+                        <div class="cont_btns_options">
+                            <ul>
+                                <li><a href="#" id="test-link" style="background-color: #A52A2A;"><i class="material-icons">&#xe5cd;</i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <!-- <li class="list_evening"></li>
+                   <li class="list_afternoont"></li>
 
+                   -->
+            </ul>
+            <!-- markup structure
+               nav, a wrapping container for a series of link elements
+                 a, each anchor link element nesting an SVG icon and a span describing the link
+               -->
+            <!--   End cont_central  -->
+        </div>
+    </div>
+</div>
+</body>
 </html>
