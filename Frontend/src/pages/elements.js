@@ -107,52 +107,88 @@ const navigationOptions = [{
 ];
 
 // target all anchor link elements
+const homePage = document.getElementById('homePage');
+const listPage = document.getElementById('listPage');
 const links = document.querySelectorAll('nav a');
 
+var z = 0;
+var listPageContainer = document.getElementById('listPage');
+
+window.add_search = function() {
+    if (z % 2 == 0 && listPage) {
+
+        listPageContainer.querySelector('.cont_crear_new').className = "cont_crear_new cont_crear_new_active";
+
+        listPageContainer.querySelector('.cont_add_titulo_cont').className = "cont_add_titulo_cont";
+        z++;
+    } else {
+        listPageContainer.querySelector('.cont_crear_new').className = "cont_crear_new";
+        listPageContainer.querySelector('.cont_add_titulo_cont').className = "cont_add_titulo_cont";
+        z++;
+    }
+}
+
 // function called in response to a click event on the anchor link
+document.addEventListener('DOMContentLoaded', function() {
+    // Show the home page as the default
+    showPage(homePage);
+
+    // Add event listeners to each anchor link
+    links.forEach(link => link.addEventListener('click', handleClick));
+});
+
 function handleClick(e) {
-    // prevent the default behavior, but most importantly remove the class of .active from those elements with it
     e.preventDefault();
+
+    // Remove 'active' class from all links
     links.forEach(link => {
         if (link.classList.contains('active')) {
             link.classList.remove('active');
         }
     });
 
-    // retrieve the option described the link element
+    // Set 'active' class on the clicked link
+    this.classList.add('active');
+
     const name = this.textContent.trim().toLowerCase();
-    // find in the array the object with the matching name
-    // store a reference to its color
     const {
         color
     } = navigationOptions.find(item => item.name === name);
 
-    // retrieve the custom property for the --hover-c property, to make it so that the properties are updated only when necessary
     const style = window.getComputedStyle(this);
     const hoverColor = style.getPropertyValue('--hover-c');
-    // if the two don't match, update the custom property to show the hue with the text and the semi transparent background
+
     if (color !== hoverColor) {
         this.style.setProperty('--hover-bg', `${color}20`);
         this.style.setProperty('--hover-c', color);
     }
 
-    // apply the class of active to animate the svg an show the span element
-    this.classList.add('active');
+    // Handle page change based on the clicked link
+    switch (name) {
+        case 'home':
+            showPage(homePage);
+            console.log('Switching to Home Page');
+            break;
+        case 'list':
+            showPage(listPage);
+            console.log('Switching to List Page');
+            break;
+            // Add more cases for additional pages if needed
+    }
 }
-// Handle page change based on the clicked link
-switch (name) {
-    case 'home':
-        // Add logic for the "home" page
-        console.log('Switching to Home Page');
-        break;
-    case 'list':
-        // Add logic for the "list" page
-        console.log('Switching to List Page');
-        break;
-        // Add more cases for additional pages if needed
+
+function showPage(pageElement) {
+    // Hide all pages
+    const allPages = document.querySelectorAll('.page');
+    allPages.forEach(page => {
+        page.style.opacity = 0;
+        page.style.pointerEvents = 'none';
+    });
+
+    // Show the selected page with a fade-in effect
+    pageElement.style.opacity = 1;
+    pageElement.style.pointerEvents = 'auto';
 }
-// listen for a click event on each and every anchor link
-links.forEach(link => link.addEventListener('click', handleClick));
 
 $(document).ready(function() {
 
@@ -160,6 +196,40 @@ $(document).ready(function() {
         removeItemButton: true,
 
     });
-
-
 });
+
+$(document).ready(function() {
+$('#test-link').click(function(e) {
+    e.preventDefault();
+
+    var userResult = function(result) {
+        if (result === 1) {
+            $('#test-text').text('The user confirmed!');
+        } else {
+            $('#test-text').text('The user did not confirm!');
+        }
+    }
+
+    toggleModal('Are you sure you want to delete this? This action cannot be undone.', userResult);
+});
+
+function toggleModal(text, callback) {
+
+    var $wrapper = $('<div id="modal-wrapper"></div>').appendTo('body');
+
+    var $modal = $('<div id="modal-confirmation"><div id="modal-header"><h3><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Confirm Delete</h3><span data-confirm=0 class="modal-action" id="modal-close"><i class="fa fa-times" aria-hidden="true"></i></span></div><div id="modal-content"><p>' + text + '</p></div><div id="modal-buttons"><button class="modal-action" data-confirm=0 id="modal-button-no">Cancel</button><button class="modal-action" data-confirm=1 id="modal-button-yes">Delete</button></div></div>').appendTo($wrapper);
+
+    setTimeout(function() {
+        $wrapper.addClass('active');
+    }, 100);
+
+    $wrapper.find('.modal-action').click(function() {
+        var result = $(this).data('confirm');
+        $wrapper.removeClass('active').delay(500).queue(function() {
+            $wrapper.remove();
+            callback(result);
+        });
+    });
+
+}
+})
