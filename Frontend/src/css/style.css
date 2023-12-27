@@ -251,14 +251,14 @@ transition: all 0.5s;
   position: relative;
   float: left;
 height: 14px;
-  top:50%;
+  top:25%;
   margin-top: -12px;
 }
 
 .col_md_3_list > .cont_text_date {
   text-align: right;
   font-family: 'Open Sans', sans-serif;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
   color: #4A4E6A;
 }
@@ -303,7 +303,7 @@ list-style-type: none;
   padding: 5px 3px;
   border-radius: 50%;
   color: #fff;
-  margin-top: -5px;
+  margin-top: 20px;
 }
 
 .col_md_3_list > .cont_btns_options > ul > li > a > i {
