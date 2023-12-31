@@ -23,21 +23,21 @@ public class CreateAlertTask implements Runnable {
     public void run() {
         LocalDateTime now = LocalDateTime.now();
 
-        Alert alert = new Alert();
-        alert.setAlertTime(LocalDateTime.now());
-
-        if(alert.getAlertTime().getYear() == now.getYear()
-                && alert.getAlertTime().getMonthValue() == now.getMonthValue()
-                && alert.getAlertTime().getDayOfMonth() == now.getDayOfMonth()
-                && alert.getAlertTime().getHour() == now.getHour()
-                && alert.getAlertTime().getMinute() == now.getMinute()) {
+//        Alert alert = new Alert();
+//        alert.setAlertTime(LocalDateTime.now());
+//
+//        if(alert.getAlertTime().getYear() == now.getYear()
+//                && alert.getAlertTime().getMonthValue() == now.getMonthValue()
+//                && alert.getAlertTime().getDayOfMonth() == now.getDayOfMonth()
+//                && alert.getAlertTime().getHour() == now.getHour()
+//                && alert.getAlertTime().getMinute() == now.getMinute()) {
 
 
 //            Frame frame = new Frame("Alert!");
 //            JOptionPane.showMessageDialog(frame,
 //                    String.format("It is time for you to take %s of your medication [%s]", alert.getDosage(), alert.getMedicationName()));
 
-        }
+//        }
     }
 }
 

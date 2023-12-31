@@ -1,6 +1,7 @@
 package com.kenzie.appserver.service.model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class Medication {
@@ -10,7 +11,7 @@ public class Medication {
     private final String dosage; // ex. 1 pill
     private final String alertTime; // ex. 8:00 am
     private final List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
-
+    private final Alert alert;
 
     // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
 //    private final List<LocalDateTime> alertDays; // list of alert days/times
@@ -22,6 +23,7 @@ public class Medication {
         this.dosage = dosage;
         this.alertTime = alertTime;
         this.alertDays = alertDays;
+        this.alert = new Alert(name, id, dosage, alertTime, alertDays);
     }
 
     public String getName() {
