@@ -4,10 +4,11 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class Alert {
     private String medicationName;
-    private String medicationId;
+    private String alertId;
     private String dosage;
     private String alertTime;
     private List<DayOfWeek> alertDays;
@@ -15,9 +16,9 @@ public class Alert {
     public Alert() {
     }
 
-    public Alert(String medicationName, String medicationId, String dosage, String alertTime, List<String> alertDays) {
+    public Alert(String medicationName, String dosage, String alertTime, List<String> alertDays) {
         this.medicationName = medicationName;
-        this.medicationId = medicationId;
+        this.alertId = UUID.randomUUID().toString();
         this.dosage = dosage;
         this.alertTime = alertTime;;
         this.alertDays = convertDays(alertDays);
@@ -30,10 +31,6 @@ public class Alert {
         this.medicationName = medicationName;
     }
 
-    public String getMedicationId() {
-        return medicationId;
-    }
-
     public String getDosage() {
         return dosage;
     }
@@ -42,8 +39,12 @@ public class Alert {
         this.dosage = dosage;
     }
 
-    public void setMedicationId(String medicationId) {
-        this.medicationId = medicationId;
+    public String getAlertId() {
+        return alertId;
+    }
+
+    public void setAlertId(String alertId) {
+        this.alertId = alertId;
     }
 
     public String getAlertTime() {

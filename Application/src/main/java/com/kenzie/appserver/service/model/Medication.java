@@ -21,7 +21,7 @@ public class Medication {
         this.dosage = dosage;
         this.alertTime = alertTime;
         this.alertDays = alertDays;
-        this.alert = new Alert(name, id, dosage, alertTime, alertDays);
+        this.alert = new Alert(name, dosage, alertTime, alertDays);
     }
 
     public String getName() {
