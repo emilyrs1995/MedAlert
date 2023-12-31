@@ -1,8 +1,6 @@
 package com.kenzie.appserver.service.model;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
