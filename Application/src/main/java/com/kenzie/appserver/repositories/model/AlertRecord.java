@@ -20,6 +20,7 @@ public class AlertRecord {
     private String alertId;
     private String dosage;
     private String alertTime;
+    private List<DayOfWeek> alertDays;
     @DynamoDBAttribute(attributeName = "Name")
     public String getMedicationName() {
         return medicationName;
@@ -51,6 +52,14 @@ public class AlertRecord {
 
     public void setAlertTime(String alertTime) {
         this.alertTime = alertTime;
+    }
+    @DynamoDBAttribute(attributeName = "AlertDays")
+    public List<DayOfWeek> getAlertDays() {
+        return alertDays;
+    }
+
+    public void setAlertDays(List<DayOfWeek> alertDays) {
+        this.alertDays = alertDays;
     }
 
     @Override
