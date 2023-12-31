@@ -18,6 +18,12 @@ public class AlertService {
         AlertRecord alertRecord = makeAlertRecord(alert);
         alertRepository.save(alertRecord);
     }
+    public void updateAlert(Alert alert){
+        if(alertRepository.existsById(alert.getMedicationName())){
+            AlertRecord alertRecord = makeAlertRecord(alert);
+            alertRepository.save(alertRecord);
+        }
+    }
     private AlertRecord makeAlertRecord(Alert alert){
         AlertRecord alertRecord = new AlertRecord();
         alertRecord.setMedicationName(alert.getMedicationName());

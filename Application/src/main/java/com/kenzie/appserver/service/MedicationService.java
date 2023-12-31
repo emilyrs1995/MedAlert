@@ -2,6 +2,7 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.MedicationRepository;
 import com.kenzie.appserver.repositories.model.MedicationRecord;
+import com.kenzie.appserver.service.model.Alert;
 import com.kenzie.appserver.service.model.Medication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ import java.util.Optional;
 public class MedicationService {
 
     private MedicationRepository medicationRepository;
+    private AlertService alertService;
 
     @Autowired
-    public MedicationService(MedicationRepository medicationRepository){
+    public MedicationService(MedicationRepository medicationRepository, AlertService alertService){
         this.medicationRepository = medicationRepository;
+        this.alertService = alertService;
     }
 
     public List<Medication> findByName(String medicationName) {
@@ -44,6 +47,7 @@ public class MedicationService {
     public Medication addNewMedication(Medication medication) {
         MedicationRecord medicationRecord = makeMedicationRecord(medication);
         medicationRepository.save(medicationRecord);
+        alertService.addAlert(medication.getAlert());
         return medication;
     }
 
@@ -51,6 +55,7 @@ public class MedicationService {
         if(medicationRepository.existsById(medication.getName())){
             MedicationRecord medicationRecord = makeMedicationRecord(medication);
             medicationRepository.save(medicationRecord);
+            alertService.updateAlert(medication.getAlert());
         }
     }
 

@@ -48,6 +48,9 @@ public class Medication {
         return alertDays;
     }
 
+    public Alert getAlert() {
+        return alert;
+    }
     // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
 //    public List<LocalDateTime> getAlertDays() {
 //        return alertDays;
