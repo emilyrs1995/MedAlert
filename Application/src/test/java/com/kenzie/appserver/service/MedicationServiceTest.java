@@ -42,9 +42,9 @@ public class MedicationServiceTest {
         String name = "Aspirin";
         String id = UUID.randomUUID().toString();
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
 
         MedicationRecord record = new MedicationRecord();
         record.setName(name);
@@ -80,9 +80,9 @@ public class MedicationServiceTest {
         String dosage = "1 pill";
         String alertTime = "8:00";
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
         Medication medication = new Medication(name, id, timeOfDay, dosage, alertTime, alertDays);
 
         ArgumentCaptor<MedicationRecord> medicationRecordCaptor = ArgumentCaptor.forClass(MedicationRecord.class);
@@ -118,9 +118,9 @@ public class MedicationServiceTest {
         String dosage = "1 pill";
         String alertTime = "8:00";
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
         Medication medication = new Medication(name, id, timeOfDay, dosage, alertTime, alertDays);
 
         ArgumentCaptor<MedicationRecord> medicationRecordCaptor = ArgumentCaptor.forClass(MedicationRecord.class);
@@ -165,9 +165,9 @@ public class MedicationServiceTest {
     void getAllMedications_returnsListOfMedication() {
         // GIVEN
         List<String> alertDays1 = new ArrayList<>();
-        alertDays1.add("Monday");
-        alertDays1.add("Wednesday");
-        alertDays1.add("Friday");
+        alertDays1.add("Mon");
+        alertDays1.add("Wed");
+        alertDays1.add("Fri");
 
         MedicationRecord record1 = new MedicationRecord();
         record1.setName("Aspirin");
@@ -178,8 +178,8 @@ public class MedicationServiceTest {
         record1.setAlertDays(alertDays1);
 
         List<String> alertDays2 = new ArrayList<>();
-        alertDays2.add("Sunday");
-        alertDays2.add("Thursday");
+        alertDays2.add("Sun");
+        alertDays2.add("Thurs");
 
         MedicationRecord record2 = new MedicationRecord();
         record2.setName("Tylenol");
@@ -231,9 +231,9 @@ public class MedicationServiceTest {
         String name = "Aspirin";
         String id = UUID.randomUUID().toString();
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
 
         MedicationRecord record = new MedicationRecord();
         record.setName(name);

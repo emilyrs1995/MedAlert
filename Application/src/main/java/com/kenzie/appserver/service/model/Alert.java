@@ -74,14 +74,29 @@ public class Alert {
         List<DayOfWeek> newDays = new ArrayList<>();
 
         for (String day: days){
+            // Emily S. 1/2 - Added the breakpoints because otherwise every day gets added every time
             switch (day.toLowerCase()){
-                case "mon": newDays.add(DayOfWeek.MONDAY);
-                case "tues": newDays.add(DayOfWeek.TUESDAY);
-                case "wed": newDays.add(DayOfWeek.WEDNESDAY);
-                case "thurs": newDays.add(DayOfWeek.THURSDAY);
-                case "fri": newDays.add(DayOfWeek.FRIDAY);
-                case "sat": newDays.add(DayOfWeek.SATURDAY);
-                case "sun": newDays.add(DayOfWeek.SUNDAY);
+                case "mon":
+                    newDays.add(DayOfWeek.MONDAY);
+                    break;
+                case "tues":
+                    newDays.add(DayOfWeek.TUESDAY);
+                    break;
+                case "wed":
+                    newDays.add(DayOfWeek.WEDNESDAY);
+                    break;
+                case "thurs":
+                    newDays.add(DayOfWeek.THURSDAY);
+                    break;
+                case "fri":
+                    newDays.add(DayOfWeek.FRIDAY);
+                    break;
+                case "sat":
+                    newDays.add(DayOfWeek.SATURDAY);
+                    break;
+                case "sun":
+                    newDays.add(DayOfWeek.SUNDAY);
+                    break;
             }
         }
         Collections.sort(newDays);
