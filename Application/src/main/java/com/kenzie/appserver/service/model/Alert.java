@@ -75,13 +75,13 @@ public class Alert {
 
         for (String day: days){
             switch (day.toLowerCase()){
-                case "mon": newDays.add(DayOfWeek.MONDAY);
-                case "tues": newDays.add(DayOfWeek.TUESDAY);
-                case "wed": newDays.add(DayOfWeek.WEDNESDAY);
-                case "thurs": newDays.add(DayOfWeek.THURSDAY);
-                case "fri": newDays.add(DayOfWeek.FRIDAY);
-                case "sat": newDays.add(DayOfWeek.SATURDAY);
-                case "sun": newDays.add(DayOfWeek.SUNDAY);
+                case "mon": newDays.add(DayOfWeek.MONDAY); break;
+                case "tues": newDays.add(DayOfWeek.TUESDAY); break;
+                case "wed": newDays.add(DayOfWeek.WEDNESDAY); break;
+                case "thurs": newDays.add(DayOfWeek.THURSDAY); break;
+                case "fri": newDays.add(DayOfWeek.FRIDAY); break;
+                case "sat": newDays.add(DayOfWeek.SATURDAY); break;
+                case "sun": newDays.add(DayOfWeek.SUNDAY); break;
             }
         }
         Collections.sort(newDays);
