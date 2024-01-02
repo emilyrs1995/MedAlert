@@ -20,7 +20,7 @@ public class Alert {
         this.medicationName = medicationName;
         this.alertId = UUID.randomUUID().toString();
         this.dosage = dosage;
-        this.alertTime = alertTime;;
+        this.alertTime = alertTime;
         this.alertDays = convertDays(alertDays);
     }
     public Alert(String medicationName, String alertId, String dosage, String alertTime, List<DayOfWeek> alertDays) {

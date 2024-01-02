@@ -31,7 +31,7 @@ public class AlertService {
         addAlertToMap(alert);
     }
     public void updateAlert(Alert alert){
-        if(alertRepository.existsById(alert.getMedicationName())){
+        if(alertRepository.existsById(alert.getAlertId())){
             AlertRecord alertRecord = makeAlertRecord(alert);
             alertRepository.save(alertRecord);
             addAlertToMap(alert);
