@@ -20,8 +20,15 @@ public class Alert {
         this.medicationName = medicationName;
         this.alertId = UUID.randomUUID().toString();
         this.dosage = dosage;
-        this.alertTime = alertTime;;
-        this.alertDays = convertDays(alertDays);
+        this.alertTime = alertTime;
+
+        // Emily S. 1/2 - Added null check so that it doesn't throw NullPointerException if no days were selected somehow
+        if (alertDays != null) {
+            this.alertDays = convertDays(alertDays);
+        } else {
+            this.alertDays = new ArrayList<>();
+        }
+
     }
     public String getMedicationName() {
         return medicationName;

@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -22,6 +21,10 @@ public class MedicationServiceTest {
 
     @InjectMocks
     private MedicationService medicationService;
+
+    @Mock
+    private AlertService alertService;
+
     @Mock
     private MedicationRepository medicationRepository;
 
@@ -90,6 +93,7 @@ public class MedicationServiceTest {
         // THEN
         Assertions.assertNotNull(returnedMedication);
         verify(medicationRepository).save(medicationRecordCaptor.capture());
+        verify(alertService).addAlert(medication.getAlert());
 
         MedicationRecord record = medicationRecordCaptor.getValue();
 
@@ -127,6 +131,7 @@ public class MedicationServiceTest {
 
         // THEN
         verify(medicationRepository).save(medicationRecordCaptor.capture());
+        verify(alertService).updateAlert(medication.getAlert());
 
         MedicationRecord record = medicationRecordCaptor.getValue();
 
@@ -150,6 +155,7 @@ public class MedicationServiceTest {
 
         // THEN
         verify(medicationRepository, never()).save(new MedicationRecord());
+        verify(alertService, never()).updateAlert(medication.getAlert());
     }
 
     /** ------------------------------------------------------------------------
