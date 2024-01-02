@@ -5,7 +5,6 @@ import com.kenzie.appserver.controller.model.MedicationResponse;
 import com.kenzie.appserver.controller.model.MedicationUpdateRequest;
 import com.kenzie.appserver.service.MedicationService;
 import com.kenzie.appserver.service.model.Medication;
-import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
