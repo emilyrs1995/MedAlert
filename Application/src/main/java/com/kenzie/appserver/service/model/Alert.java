@@ -21,14 +21,22 @@ public class Alert {
         this.alertId = UUID.randomUUID().toString();
         this.dosage = dosage;
         this.alertTime = alertTime;
-        this.alertDays = convertDays(alertDays);
+        if(alertDays != null) {
+            this.alertDays = convertDays(alertDays);
+        } else {
+            this.alertDays = new ArrayList<>();
+        }
     }
     public Alert(String medicationName, String alertId, String dosage, String alertTime, List<DayOfWeek> alertDays) {
         this.medicationName = medicationName;
         this.alertId = alertId;
         this.dosage = dosage;
-        this.alertTime = alertTime;;
-        this.alertDays = alertDays;
+        this.alertTime = alertTime;
+        if(alertDays != null) {
+            this.alertDays = alertDays;
+        } else {
+            this.alertDays = new ArrayList<>();
+        }
     }
     public String getMedicationName() {
         return medicationName;
