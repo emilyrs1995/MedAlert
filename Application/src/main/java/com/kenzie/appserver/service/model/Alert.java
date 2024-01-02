@@ -23,6 +23,13 @@ public class Alert {
         this.alertTime = alertTime;;
         this.alertDays = convertDays(alertDays);
     }
+    public Alert(String medicationName, String alertId, String dosage, String alertTime, List<DayOfWeek> alertDays) {
+        this.medicationName = medicationName;
+        this.alertId = alertId;
+        this.dosage = dosage;
+        this.alertTime = alertTime;;
+        this.alertDays = alertDays;
+    }
     public String getMedicationName() {
         return medicationName;
     }
