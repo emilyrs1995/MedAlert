@@ -14,8 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AlertServiceTest {
 
@@ -93,5 +92,18 @@ public class AlertServiceTest {
         Assertions.assertEquals("TUESDAY", alert.getAlertDays().get(0).toString());
         Assertions.assertEquals("THURSDAY", alert.getAlertDays().get(1).toString());
         Assertions.assertEquals("SATURDAY", alert.getAlertDays().get(2).toString());
+    }
+
+    @Test
+    void updateAlert_withInvalidAlert_updatesAlert() {
+        // GIVEN
+        Alert alert = new Alert(null, null, null, null);
+        when(alertRepository.existsById(alert.getMedicationName())).thenReturn(false);
+
+        // WHEN
+        alertService.updateAlert(alert);
+
+        // THEN
+        verify(alertRepository, never()).save(new AlertRecord());
     }
 }

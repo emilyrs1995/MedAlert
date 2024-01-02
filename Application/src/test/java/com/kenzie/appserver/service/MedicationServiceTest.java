@@ -148,7 +148,7 @@ public class MedicationServiceTest {
     void updateMedication_withInvalidInput_doesNotUpdateMedication() {
         // GIVEN
         Medication medication = new Medication(null, null, null, null, null, null);
-        when(medicationRepository.existsById(medication.getId())).thenReturn(false);
+        when(medicationRepository.existsById(medication.getName())).thenReturn(false);
 
         // WHEN
         medicationService.updateMedication(medication);

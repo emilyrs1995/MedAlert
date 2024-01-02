@@ -34,15 +34,12 @@ public class MedicationController {
     }
 
     @GetMapping("/{medication}")
-    public ResponseEntity<List<MedicationResponse>> getMedication(@PathVariable("medication") String medicationName) {
-        List<Medication> medications = medicationService.findByName(medicationName);
-        if (medications == null || medications.isEmpty()) {
+    public ResponseEntity<MedicationResponse> getMedication(@PathVariable("medication") String medicationName) {
+        Medication medication = medicationService.findById(medicationName);
+        if (medication == null) {
             return ResponseEntity.noContent().build();
         }
-        List<MedicationResponse> response = new ArrayList<>();
-        for (Medication medication : medications) {
-            response.add(this.createMedicationResponse(medication));
-        }
+        MedicationResponse response = this.createMedicationResponse(medication);
 
         return ResponseEntity.ok(response);
     }
