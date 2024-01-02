@@ -3,6 +3,7 @@ package com.kenzie.appserver.repositories.model;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 
 import java.time.DayOfWeek;
 import java.util.List;
@@ -17,14 +18,7 @@ public class AlertRecord {
     private String dosage;
     private String alertTime;
     private List<DayOfWeek> alertDays;
-    @DynamoDBAttribute(attributeName = "Name")
-    public String getMedicationName() {
-        return medicationName;
-    }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
-    }
     @DynamoDBHashKey(attributeName = "AlertId")
     public String getAlertId() {
         return alertId;
@@ -33,7 +27,18 @@ public class AlertRecord {
     public void setAlertId(String alertId) {
         this.alertId = alertId;
     }
-    @DynamoDBHashKey(attributeName = "Dosage")
+
+    @DynamoDBAttribute(attributeName = "Name")
+    public String getMedicationName() {
+        return medicationName;
+    }
+
+    public void setMedicationName(String medicationName) {
+        this.medicationName = medicationName;
+    }
+
+    // Emily S. 1/2 - changed this to a DynamoDBAttribute instead of a hash key
+    @DynamoDBAttribute(attributeName = "Dosage")
     public String getDosage() {
         return dosage;
     }
@@ -41,6 +46,7 @@ public class AlertRecord {
     public void setDosage(String dosage) {
         this.dosage = dosage;
     }
+
     @DynamoDBAttribute(attributeName = "AlertTime")
     public String getAlertTime() {
         return alertTime;
@@ -49,6 +55,9 @@ public class AlertRecord {
     public void setAlertTime(String alertTime) {
         this.alertTime = alertTime;
     }
+
+    // Emily S. 1/2 - added the converter so that DynamoDB can read the DayOfWeek value
+    @DynamoDBTypeConverted(converter = DayOfWeekConverter.class)
     @DynamoDBAttribute(attributeName = "AlertDays")
     public List<DayOfWeek> getAlertDays() {
         return alertDays;

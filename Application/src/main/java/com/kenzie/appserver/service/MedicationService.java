@@ -2,7 +2,6 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.MedicationRepository;
 import com.kenzie.appserver.repositories.model.MedicationRecord;
-import com.kenzie.appserver.service.model.Alert;
 import com.kenzie.appserver.service.model.Medication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +20,6 @@ public class MedicationService {
     public MedicationService(MedicationRepository medicationRepository, AlertService alertService){
         this.medicationRepository = medicationRepository;
         this.alertService = alertService;
-    }
-
-    public List<Medication> findByName(String medicationName) {
-        List<Medication> medications = new ArrayList<>();
-
-        List<Medication> allMedication = this.getAllMedications();
-        for (Medication medication : allMedication) {
-            if (medication.getName().equals(medicationName)) {
-                medications.add(medication);
-            }
-        }
-        return medications;
     }
 
     public Medication findById(String id) {

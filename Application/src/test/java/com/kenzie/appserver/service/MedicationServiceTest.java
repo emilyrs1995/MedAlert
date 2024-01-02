@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -22,6 +21,10 @@ public class MedicationServiceTest {
 
     @InjectMocks
     private MedicationService medicationService;
+
+    @Mock
+    private AlertService alertService;
+
     @Mock
     private MedicationRepository medicationRepository;
 
@@ -39,9 +42,9 @@ public class MedicationServiceTest {
         String name = "Aspirin";
         String id = UUID.randomUUID().toString();
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
 
         MedicationRecord record = new MedicationRecord();
         record.setName(name);
@@ -77,9 +80,9 @@ public class MedicationServiceTest {
         String dosage = "1 pill";
         String alertTime = "8:00";
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
         Medication medication = new Medication(name, id, timeOfDay, dosage, alertTime, alertDays);
 
         ArgumentCaptor<MedicationRecord> medicationRecordCaptor = ArgumentCaptor.forClass(MedicationRecord.class);
@@ -90,6 +93,7 @@ public class MedicationServiceTest {
         // THEN
         Assertions.assertNotNull(returnedMedication);
         verify(medicationRepository).save(medicationRecordCaptor.capture());
+        verify(alertService).addAlert(medication.getAlert());
 
         MedicationRecord record = medicationRecordCaptor.getValue();
 
@@ -114,9 +118,9 @@ public class MedicationServiceTest {
         String dosage = "1 pill";
         String alertTime = "8:00";
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
         Medication medication = new Medication(name, id, timeOfDay, dosage, alertTime, alertDays);
 
         ArgumentCaptor<MedicationRecord> medicationRecordCaptor = ArgumentCaptor.forClass(MedicationRecord.class);
@@ -127,6 +131,7 @@ public class MedicationServiceTest {
 
         // THEN
         verify(medicationRepository).save(medicationRecordCaptor.capture());
+        verify(alertService).updateAlert(medication.getAlert());
 
         MedicationRecord record = medicationRecordCaptor.getValue();
 
@@ -143,13 +148,14 @@ public class MedicationServiceTest {
     void updateMedication_withInvalidInput_doesNotUpdateMedication() {
         // GIVEN
         Medication medication = new Medication(null, null, null, null, null, null);
-        when(medicationRepository.existsById(medication.getId())).thenReturn(false);
+        when(medicationRepository.existsById(medication.getName())).thenReturn(false);
 
         // WHEN
         medicationService.updateMedication(medication);
 
         // THEN
         verify(medicationRepository, never()).save(new MedicationRecord());
+        verify(alertService, never()).updateAlert(medication.getAlert());
     }
 
     /** ------------------------------------------------------------------------
@@ -159,9 +165,9 @@ public class MedicationServiceTest {
     void getAllMedications_returnsListOfMedication() {
         // GIVEN
         List<String> alertDays1 = new ArrayList<>();
-        alertDays1.add("Monday");
-        alertDays1.add("Wednesday");
-        alertDays1.add("Friday");
+        alertDays1.add("Mon");
+        alertDays1.add("Wed");
+        alertDays1.add("Fri");
 
         MedicationRecord record1 = new MedicationRecord();
         record1.setName("Aspirin");
@@ -172,8 +178,8 @@ public class MedicationServiceTest {
         record1.setAlertDays(alertDays1);
 
         List<String> alertDays2 = new ArrayList<>();
-        alertDays2.add("Sunday");
-        alertDays2.add("Thursday");
+        alertDays2.add("Sun");
+        alertDays2.add("Thurs");
 
         MedicationRecord record2 = new MedicationRecord();
         record2.setName("Tylenol");
@@ -225,9 +231,9 @@ public class MedicationServiceTest {
         String name = "Aspirin";
         String id = UUID.randomUUID().toString();
         List<String> alertDays = new ArrayList<>();
-        alertDays.add("Monday");
-        alertDays.add("Wednesday");
-        alertDays.add("Friday");
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
 
         MedicationRecord record = new MedicationRecord();
         record.setName(name);
