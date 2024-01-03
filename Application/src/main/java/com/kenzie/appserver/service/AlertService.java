@@ -17,23 +17,23 @@ import java.util.*;
 public class AlertService {
     private AlertRepository alertRepository;
     // The alert is stored by alertId to avoid mixing up to different times of the same medication if they  are on the same day
-    private Map<DayOfWeek, Map<String, Alert>> alertMap;
+    private AlertMap alertMap;
     @Autowired
     public AlertService(AlertRepository alertRepository){
         this.alertRepository = alertRepository;
         // Check for null here?
-        this.alertMap = makeAlertMap(new ArrayList<>());
+        this.alertMap = new AlertMap();
     }
     public void addAlert(Alert alert){
         AlertRecord alertRecord = makeAlertRecord(alert);
         alertRepository.save(alertRecord);
-        addAlertToMap(alert);
+        alertMap.addAlertToMap(alert);
     }
     public void updateAlert(Alert alert){
         if(alertRepository.existsById(alert.getAlertId())){
             AlertRecord alertRecord = makeAlertRecord(alert);
             alertRepository.save(alertRecord);
-            addAlertToMap(alert);
+            alertMap.addAlertToMap(alert);
         }
     }
 
@@ -42,7 +42,7 @@ public class AlertService {
         if(alertRecord.isPresent()){
             AlertRecord deleteRecord = alertRecord.get();
             alertRepository.delete(deleteRecord);
-            removeAlertFromMap(new Alert(deleteRecord.getMedicationName(), deleteRecord.getAlertId(),
+            alertMap.removeAlertFromMap(new Alert(deleteRecord.getMedicationName(), deleteRecord.getAlertId(),
                     deleteRecord.getDosage(), deleteRecord.getAlertTime(), deleteRecord.getAlertDays()));
         }
     }
@@ -54,7 +54,7 @@ public class AlertService {
         // Set current DayOfWeek
         LocalDate date = LocalDate.now();
         DayOfWeek day = date.getDayOfWeek();
-        Map<String, Alert> alerts = alertMap.get(day);
+        Map<String, Alert> alerts = alertMap.getAlertMap().get(day);
         // Iterate through map, and check if alertTime == current time
         for(Alert alert: alerts.values()){
             if(LocalTime.now().toString().contains(alert.getAlertTime())){
@@ -73,87 +73,9 @@ public class AlertService {
         alertRecord.setAlertDays(alert.getAlertDays());
         return alertRecord;
     }
-    private Map<DayOfWeek, Map<String, Alert>> makeAlertMap(List<Alert> alertList){
-        Map<DayOfWeek, Map<String, Alert>> returnMap = makeAlertKeys();
-        Map<String, Alert> valueMap;
 
-        if(alertList != null){
-            for(Alert alert: alertList){
-                for(DayOfWeek day: alert.getAlertDays()){
-                    valueMap = returnMap.get(day);
-                    switch (day){
-                        case MONDAY: valueMap.put(alert.getAlertId(), alert); break;
-                        case TUESDAY: valueMap.put(alert.getAlertId(), alert); break;
-                        case WEDNESDAY: valueMap.put(alert.getAlertId(), alert); break;
-                        case THURSDAY: valueMap.put(alert.getAlertId(), alert); break;
-                        case FRIDAY: valueMap.put(alert.getAlertId(), alert); break;
-                        case SATURDAY: valueMap.put(alert.getAlertId(), alert); break;
-                        case SUNDAY: valueMap.put(alert.getAlertId(), alert); break;
-                    }
-                    returnMap.put(day,valueMap);
-                }
-            }
-        }
-        return returnMap;
-    }
-    private Map<DayOfWeek, Map<String, Alert>> makeAlertKeys(){
-        Map<DayOfWeek, Map<String, Alert>> returnMap = new HashMap<>();
+    // May use as calling point from frontend
+//    private Map<DayOfWeek, Map<String, Alert>> makeAlertMap(List<Alert> alertList){
+//    }
 
-        returnMap.put(DayOfWeek.MONDAY, new HashMap<>());
-        returnMap.put(DayOfWeek.TUESDAY, new HashMap<>());
-        returnMap.put(DayOfWeek.WEDNESDAY, new HashMap<>());
-        returnMap.put(DayOfWeek.THURSDAY, new HashMap<>());
-        returnMap.put(DayOfWeek.FRIDAY, new HashMap<>());
-        returnMap.put(DayOfWeek.SATURDAY, new HashMap<>());
-        returnMap.put(DayOfWeek.SUNDAY, new HashMap<>());
-
-        return  returnMap;
-    }
-    private void addAlertToMap(Alert alert){
-        Map<String, Alert> valueMap;
-
-        for(DayOfWeek day: alert.getAlertDays()){
-            valueMap = alertMap.get(day);
-            switch (day){
-                case MONDAY: valueMap.put(alert.getAlertId(), alert); break;
-                case TUESDAY: valueMap.put(alert.getAlertId(), alert); break;
-                case WEDNESDAY: valueMap.put(alert.getAlertId(), alert); break;
-                case THURSDAY: valueMap.put(alert.getAlertId(), alert); break;
-                case FRIDAY: valueMap.put(alert.getAlertId(), alert); break;
-                case SATURDAY: valueMap.put(alert.getAlertId(), alert); break;
-                case SUNDAY: valueMap.put(alert.getAlertId(), alert); break;
-            }
-            alertMap.put(day,valueMap);
-        }
-
-    }
-    private void removeAlertFromMap(Alert alert){
-        Map<String, Alert> valueMap;
-
-        for(DayOfWeek day: alert.getAlertDays()){
-            valueMap = alertMap.get(day);
-            switch (day){
-                case MONDAY: valueMap.remove(alert.getAlertId(), alert); break;
-                case TUESDAY: valueMap.remove(alert.getAlertId(), alert); break;
-                case WEDNESDAY: valueMap.remove(alert.getAlertId(), alert); break;
-                case THURSDAY: valueMap.remove(alert.getAlertId(), alert); break;
-                case FRIDAY: valueMap.remove(alert.getAlertId(), alert); break;
-                case SATURDAY: valueMap.remove(alert.getAlertId(), alert); break;
-                case SUNDAY: valueMap.remove(alert.getAlertId(), alert); break;
-            }
-            alertMap.put(day,valueMap);
-        }
-
-    }
-    private List<Alert> makeAlertList(Iterable<AlertRecord> alertRecords){
-        List<Alert> alerts = new ArrayList<>();
-
-        if( alertRecords != null) {
-            for (AlertRecord record : alertRecords) {
-                alerts.add(new Alert(record.getMedicationName(), record.getAlertId(), record.getDosage(), record.getAlertTime(), record.getAlertDays()));
-            }
-        }
-
-        return alerts;
-    }
 }
