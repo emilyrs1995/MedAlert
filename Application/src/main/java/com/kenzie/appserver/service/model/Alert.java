@@ -21,7 +21,22 @@ public class Alert {
         this.alertId = UUID.randomUUID().toString();
         this.dosage = dosage;
         this.alertTime = alertTime;
-        this.alertDays = convertDays(alertDays);
+        if(alertDays != null) {
+            this.alertDays = convertDays(alertDays);
+        } else {
+            this.alertDays = new ArrayList<>();
+        }
+    }
+    public Alert(String medicationName, String alertId, String dosage, String alertTime, List<DayOfWeek> alertDays) {
+        this.medicationName = medicationName;
+        this.alertId = alertId;
+        this.dosage = dosage;
+        this.alertTime = alertTime;
+        if(alertDays != null) {
+            this.alertDays = alertDays;
+        } else {
+            this.alertDays = new ArrayList<>();
+        }
     }
     public String getMedicationName() {
         return medicationName;
@@ -68,13 +83,13 @@ public class Alert {
 
         for (String day: days){
             switch (day.toLowerCase()){
-                case "mon": newDays.add(DayOfWeek.MONDAY);
-                case "tues": newDays.add(DayOfWeek.TUESDAY);
-                case "wed": newDays.add(DayOfWeek.WEDNESDAY);
-                case "thurs": newDays.add(DayOfWeek.THURSDAY);
-                case "fri": newDays.add(DayOfWeek.FRIDAY);
-                case "sat": newDays.add(DayOfWeek.SATURDAY);
-                case "sun": newDays.add(DayOfWeek.SUNDAY);
+                case "mon": newDays.add(DayOfWeek.MONDAY); break;
+                case "tues": newDays.add(DayOfWeek.TUESDAY); break;
+                case "wed": newDays.add(DayOfWeek.WEDNESDAY); break;
+                case "thurs": newDays.add(DayOfWeek.THURSDAY); break;
+                case "fri": newDays.add(DayOfWeek.FRIDAY); break;
+                case "sat": newDays.add(DayOfWeek.SATURDAY); break;
+                case "sun": newDays.add(DayOfWeek.SUNDAY); break;
             }
         }
         Collections.sort(newDays);
