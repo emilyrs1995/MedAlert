@@ -15,18 +15,6 @@ public class Alert {
 
     public Alert() {
     }
-
-    public Alert(String medicationName, String dosage, String alertTime, List<String> alertDays) {
-        this.medicationName = medicationName;
-        this.alertId = UUID.randomUUID().toString();
-        this.dosage = dosage;
-        this.alertTime = alertTime;
-        if(alertDays != null) {
-            this.alertDays = convertDays(alertDays);
-        } else {
-            this.alertDays = new ArrayList<>();
-        }
-    }
     public Alert(String medicationName, String alertId, String dosage, String alertTime, List<DayOfWeek> alertDays) {
         this.medicationName = medicationName;
         this.alertId = alertId;
@@ -76,23 +64,5 @@ public class Alert {
 
     public void setAlertDays(List<DayOfWeek> alertDays) {
         this.alertDays = alertDays;
-    }
-
-    private List<DayOfWeek> convertDays(List<String> days){
-        List<DayOfWeek> newDays = new ArrayList<>();
-
-        for (String day: days){
-            switch (day.toLowerCase()){
-                case "mon": newDays.add(DayOfWeek.MONDAY); break;
-                case "tues": newDays.add(DayOfWeek.TUESDAY); break;
-                case "wed": newDays.add(DayOfWeek.WEDNESDAY); break;
-                case "thurs": newDays.add(DayOfWeek.THURSDAY); break;
-                case "fri": newDays.add(DayOfWeek.FRIDAY); break;
-                case "sat": newDays.add(DayOfWeek.SATURDAY); break;
-                case "sun": newDays.add(DayOfWeek.SUNDAY); break;
-            }
-        }
-        Collections.sort(newDays);
-        return newDays;
     }
 }
