@@ -14,9 +14,6 @@ public class Medication {
     private final List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
     private final Alert alert;
 
-    // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
-//    private final List<LocalDateTime> alertDays; // list of alert days/times
-
     public Medication(String name, String id, String timeOfDay, String dosage, String alertTime, List<String> alertDays) {
         this.name = name;
         this.id = id;
@@ -24,7 +21,12 @@ public class Medication {
         this.dosage = dosage;
         this.alertTime = alertTime;
         this.alertDays = alertDays;
-        this.alert = new Alert(name, id, dosage, alertTime, convertDays(alertDays));
+
+        if (alertDays != null) {
+            this.alert = new Alert(name, id, dosage, alertTime, convertDays(alertDays));
+        } else {
+            this.alert = new Alert(name, id, dosage, alertTime, convertDays(new ArrayList<>()));
+        }
     }
 
     public String getName() {
@@ -54,10 +56,7 @@ public class Medication {
     public Alert getAlert() {
         return alert;
     }
-    // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
-//    public List<LocalDateTime> getAlertDays() {
-//        return alertDays;
-//    }
+
     private List<DayOfWeek> convertDays(List<String> days){
         List<DayOfWeek> newDays = new ArrayList<>();
 

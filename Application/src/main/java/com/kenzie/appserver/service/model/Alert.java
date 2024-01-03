@@ -20,11 +20,7 @@ public class Alert {
         this.alertId = alertId;
         this.dosage = dosage;
         this.alertTime = alertTime;
-        if(alertDays != null) {
-            this.alertDays = alertDays;
-        } else {
-            this.alertDays = new ArrayList<>();
-        }
+        this.alertDays = alertDays;
     }
     public String getMedicationName() {
         return medicationName;

@@ -20,9 +20,6 @@ public class MedicationRecord {
     private String alertTime; // ex. 8:00 am
     private List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
 
-    // Emily S. 12/21 - saving in case we revert back to using the LocalDateTime with the converter class
-    // private List<LocalDateTime> alertDays;
-
     @DynamoDBHashKey(attributeName = "Name")
     public String getName() {
         return name;
@@ -78,17 +75,6 @@ public class MedicationRecord {
     public void setAlertDays(List<String> alertDays) {
         this.alertDays = alertDays;
     }
-
-    // Emily S. 12/21 - saving in case we revert back to using the LocalDateTime with the converter class
-//    @DynamoDBTypeConverted(converter = LocalDateTimeListConverter.class)
-//    @DynamoDBAttribute(attributeName = "alertDays")
-//    public List<LocalDateTime> getAlertDays() {
-//        return alertDays;
-//    }
-//
-//    public void setAlertDays(List<LocalDateTime> alertDays) {
-//        this.alertDays = alertDays;
-//    }
 
     @Override
     public boolean equals(Object o) {

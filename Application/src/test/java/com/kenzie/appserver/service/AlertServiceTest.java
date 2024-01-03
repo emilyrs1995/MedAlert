@@ -11,8 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.DayOfWeek;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -36,14 +36,16 @@ public class AlertServiceTest {
     void addAlert_withValidInput_addsAlert() {
         // GIVEN
         String name = "Aspirin";
+        String Id = UUID.randomUUID().toString();
         String dosage = "1 pill";
         String alertTime = "8:00";
-        List<String> alertDays = new ArrayList<>();
-        alertDays.add("Mon");
-        alertDays.add("Wed");
-        alertDays.add("Fri");
+        List<DayOfWeek> alertDays = new ArrayList<>();
+        alertDays.add(DayOfWeek.MONDAY);
+        alertDays.add(DayOfWeek.WEDNESDAY);
+        alertDays.add(DayOfWeek.FRIDAY);
+        alertDays.add(DayOfWeek.SUNDAY);
 
-        Alert alert = new Alert(name, dosage, alertTime, alertDays);
+        Alert alert = new Alert(name, Id, dosage, alertTime, alertDays);
 
         ArgumentCaptor<AlertRecord> alertRecordCaptor = ArgumentCaptor.forClass(AlertRecord.class);
 
@@ -55,10 +57,7 @@ public class AlertServiceTest {
         AlertRecord record = alertRecordCaptor.getValue();
 
         Assertions.assertNotNull(record);
-        Assertions.assertNotNull(alert.getAlertId());
-        Assertions.assertEquals("MONDAY", alert.getAlertDays().get(0).toString());
-        Assertions.assertEquals("WEDNESDAY", alert.getAlertDays().get(1).toString());
-        Assertions.assertEquals("FRIDAY", alert.getAlertDays().get(2).toString());
+        Assertions.assertEquals(4, record.getAlertDays().size());
     }
 
     /** ------------------------------------------------------------------------
@@ -68,14 +67,15 @@ public class AlertServiceTest {
     void updateAlert_withValidAlert_updatesAlert() {
         // GIVEN
         String name = "Aspirin";
+        String Id = UUID.randomUUID().toString();
         String dosage = "1 pill";
         String alertTime = "8:00";
-        List<String> alertDays = new ArrayList<>();
-        alertDays.add("Tues");
-        alertDays.add("Thurs");
-        alertDays.add("Sat");
+        List<DayOfWeek> alertDays = new ArrayList<>();
+        alertDays.add(DayOfWeek.TUESDAY);
+        alertDays.add(DayOfWeek.THURSDAY);
+        alertDays.add(DayOfWeek.SATURDAY);
 
-        Alert alert = new Alert(name, dosage, alertTime, alertDays);
+        Alert alert = new Alert(name, Id, dosage, alertTime, alertDays);
         when(alertRepository.existsById(alert.getAlertId())).thenReturn(true);
 
         ArgumentCaptor<AlertRecord> alertRecordCaptor = ArgumentCaptor.forClass(AlertRecord.class);
@@ -88,16 +88,13 @@ public class AlertServiceTest {
         AlertRecord record = alertRecordCaptor.getValue();
 
         Assertions.assertNotNull(record);
-        Assertions.assertNotNull(alert.getAlertId());
-        Assertions.assertEquals("TUESDAY", alert.getAlertDays().get(0).toString());
-        Assertions.assertEquals("THURSDAY", alert.getAlertDays().get(1).toString());
-        Assertions.assertEquals("SATURDAY", alert.getAlertDays().get(2).toString());
+        Assertions.assertEquals(3, record.getAlertDays().size());
     }
 
     @Test
     void updateAlert_withInvalidAlert_updatesAlert() {
         // GIVEN
-        Alert alert = new Alert(null, null, null, null);
+        Alert alert = new Alert(null, null, null, null, null);
         when(alertRepository.existsById(alert.getMedicationName())).thenReturn(false);
 
         // WHEN
@@ -105,5 +102,80 @@ public class AlertServiceTest {
 
         // THEN
         verify(alertRepository, never()).save(new AlertRecord());
+    }
+
+    /** ------------------------------------------------------------------------
+     *  alertService.deleteAlert
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    void deleteAlert_withValidInput_deletesAlert() {
+        // GIVEN
+        String name = "Aspirin";
+        String Id = UUID.randomUUID().toString();
+        String dosage = "1 pill";
+        String alertTime = "8:00";
+        List<DayOfWeek> alertDays = new ArrayList<>();
+        alertDays.add(DayOfWeek.TUESDAY);
+        alertDays.add(DayOfWeek.THURSDAY);
+        alertDays.add(DayOfWeek.SATURDAY);
+        Alert alert = new Alert(name, Id, dosage, alertTime, alertDays);
+
+        AlertRecord alertRecord = new AlertRecord();
+        alertRecord.setMedicationName(alert.getMedicationName());
+        alertRecord.setAlertId(alert.getAlertId());
+        alertRecord.setDosage(alert.getDosage());
+        alertRecord.setAlertTime(alert.getAlertTime());
+        alertRecord.setAlertDays(alert.getAlertDays());
+
+        when(alertRepository.findById(Id)).thenReturn(Optional.of(alertRecord));
+
+        // WHEN
+        alertService.deleteAlert(Id);
+
+        // THEN
+        verify(alertRepository).delete(alertRecord);
+    }
+
+    @Test
+    void deleteAlert_withMoreValidInput_deletesAlert() {
+        // GIVEN
+        String name = "Aspirin";
+        String Id = UUID.randomUUID().toString();
+        String dosage = "1 pill";
+        String alertTime = "8:00";
+        List<DayOfWeek> alertDays = new ArrayList<>();
+        alertDays.add(DayOfWeek.MONDAY);
+        alertDays.add(DayOfWeek.WEDNESDAY);
+        alertDays.add(DayOfWeek.FRIDAY);
+        alertDays.add(DayOfWeek.SUNDAY);
+        Alert alert = new Alert(name, Id, dosage, alertTime, alertDays);
+
+        AlertRecord alertRecord = new AlertRecord();
+        alertRecord.setMedicationName(alert.getMedicationName());
+        alertRecord.setAlertId(alert.getAlertId());
+        alertRecord.setDosage(alert.getDosage());
+        alertRecord.setAlertTime(alert.getAlertTime());
+        alertRecord.setAlertDays(alert.getAlertDays());
+
+        when(alertRepository.findById(Id)).thenReturn(Optional.of(alertRecord));
+
+        // WHEN
+        alertService.deleteAlert(Id);
+
+        // THEN
+        verify(alertRepository).delete(alertRecord);
+    }
+
+    @Test
+    void deleteAlert_withInvalidInput_doesNotDeleteAlert() {
+        // GIVEN
+        String id = UUID.randomUUID().toString();
+        when(alertRepository.findById(id)).thenReturn(Optional.empty());
+
+        // WHEN
+        alertService.deleteAlert(id);
+
+        // THEN
+        verify(alertRepository, never()).delete(new AlertRecord());
     }
 }
