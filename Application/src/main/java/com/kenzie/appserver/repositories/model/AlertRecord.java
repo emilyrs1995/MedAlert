@@ -5,82 +5,72 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 
-
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "Alerts")
 public class AlertRecord {
 
     // Emily S. 12/21 - Alert Record for saving individual alerts in a table
-    private String alertId;
     private String medicationName;
-    private String medicationId;
+    private String alertId;
     private String dosage;
-    private LocalDateTime alertTime;
+    private String alertTime;
+    private List<DayOfWeek> alertDays;
 
-    public AlertRecord(String alertId, String medicationName, String medicationId, String dosage, LocalDateTime alertTime) {
-        this.alertId = alertId;
-        this.medicationName = medicationName;
-        this.medicationId = medicationId;
-        this.dosage = dosage;
-        this.alertTime = alertTime;
-    }
-
-    @DynamoDBHashKey(attributeName = "alertId")
+    @DynamoDBHashKey(attributeName = "AlertId")
     public String getAlertId() {
         return alertId;
-    }
-
-    @DynamoDBAttribute(attributeName = "medicationName")
-    public String getMedicationName() {
-        return medicationName;
-    }
-
-    @DynamoDBAttribute(attributeName = "medicationId")
-    public String getMedicationId() {
-        return medicationId;
-    }
-
-    @DynamoDBAttribute(attributeName = "dosage")
-    public String getDosage() {
-        return dosage;
-    }
-
-    @DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
-    @DynamoDBAttribute(attributeName = "alertTime")
-    public LocalDateTime getAlertTime() {
-        return alertTime;
     }
 
     public void setAlertId(String alertId) {
         this.alertId = alertId;
     }
 
+    @DynamoDBAttribute(attributeName = "Name")
+    public String getMedicationName() {
+        return medicationName;
+    }
+
     public void setMedicationName(String medicationName) {
         this.medicationName = medicationName;
     }
 
-    public void setMedicationId(String medicationId) {
-        this.medicationId = medicationId;
+    // Emily S. 1/2 - changed this to a DynamoDBAttribute instead of a hash key
+    @DynamoDBAttribute(attributeName = "Dosage")
+    public String getDosage() {
+        return dosage;
     }
 
     public void setDosage(String dosage) {
         this.dosage = dosage;
     }
 
-    public void setAlertTime(LocalDateTime alertTime) {
+    @DynamoDBAttribute(attributeName = "AlertTime")
+    public String getAlertTime() {
+        return alertTime;
+    }
+
+    public void setAlertTime(String alertTime) {
         this.alertTime = alertTime;
+    }
+
+    // Emily S. 1/2 - added the converter so that DynamoDB can read the DayOfWeek value
+    @DynamoDBTypeConverted(converter = DayOfWeekConverter.class)
+    @DynamoDBAttribute(attributeName = "AlertDays")
+    public List<DayOfWeek> getAlertDays() {
+        return alertDays;
+    }
+
+    public void setAlertDays(List<DayOfWeek> alertDays) {
+        this.alertDays = alertDays;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         AlertRecord that = (AlertRecord) o;
         return Objects.equals(alertId, that.alertId);
     }

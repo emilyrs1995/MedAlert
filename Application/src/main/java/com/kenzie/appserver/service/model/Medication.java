@@ -1,6 +1,8 @@
 package com.kenzie.appserver.service.model;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Medication {
@@ -10,7 +12,7 @@ public class Medication {
     private final String dosage; // ex. 1 pill
     private final String alertTime; // ex. 8:00 am
     private final List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
-
+    private final Alert alert;
 
     // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
 //    private final List<LocalDateTime> alertDays; // list of alert days/times
@@ -22,6 +24,7 @@ public class Medication {
         this.dosage = dosage;
         this.alertTime = alertTime;
         this.alertDays = alertDays;
+        this.alert = new Alert(name, id, dosage, alertTime, convertDays(alertDays));
     }
 
     public String getName() {
@@ -48,8 +51,28 @@ public class Medication {
         return alertDays;
     }
 
+    public Alert getAlert() {
+        return alert;
+    }
     // Emily S. 12/21 - Saving in case we go back to using LocalDateTime
 //    public List<LocalDateTime> getAlertDays() {
 //        return alertDays;
 //    }
+    private List<DayOfWeek> convertDays(List<String> days){
+        List<DayOfWeek> newDays = new ArrayList<>();
+
+        for (String day: days){
+            switch (day.toLowerCase()){
+                case "mon": newDays.add(DayOfWeek.MONDAY); break;
+                case "tues": newDays.add(DayOfWeek.TUESDAY); break;
+                case "wed": newDays.add(DayOfWeek.WEDNESDAY); break;
+                case "thurs": newDays.add(DayOfWeek.THURSDAY); break;
+                case "fri": newDays.add(DayOfWeek.FRIDAY); break;
+                case "sat": newDays.add(DayOfWeek.SATURDAY); break;
+                case "sun": newDays.add(DayOfWeek.SUNDAY); break;
+            }
+        }
+        Collections.sort(newDays);
+        return newDays;
+    }
 }

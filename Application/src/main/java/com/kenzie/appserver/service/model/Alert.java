@@ -1,44 +1,37 @@
 package com.kenzie.appserver.service.model;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 public class Alert {
-
-    private String alertId;
     private String medicationName;
-    private String medicationId;
+    private String alertId;
     private String dosage;
-    private LocalDateTime alertTime;
+    private String alertTime;
+    private List<DayOfWeek> alertDays;
 
     public Alert() {
     }
-
-    public Alert(String alertId, String medicationName, String medicationId, String dosage, LocalDateTime alertTime) {
-        this.alertId = alertId;
+    public Alert(String medicationName, String alertId, String dosage, String alertTime, List<DayOfWeek> alertDays) {
         this.medicationName = medicationName;
-        this.medicationId = medicationId;
+        this.alertId = alertId;
         this.dosage = dosage;
         this.alertTime = alertTime;
+        if(alertDays != null) {
+            this.alertDays = alertDays;
+        } else {
+            this.alertDays = new ArrayList<>();
+        }
     }
-
-    public String getAlertId() {
-        return alertId;
-    }
-
-    public void setAlertId(String alertId) {
-        this.alertId = alertId;
-    }
-
     public String getMedicationName() {
         return medicationName;
     }
 
     public void setMedicationName(String medicationName) {
         this.medicationName = medicationName;
-    }
-
-    public String getMedicationId() {
-        return medicationId;
     }
 
     public String getDosage() {
@@ -49,15 +42,27 @@ public class Alert {
         this.dosage = dosage;
     }
 
-    public void setMedicationId(String medicationId) {
-        this.medicationId = medicationId;
+    public String getAlertId() {
+        return alertId;
     }
 
-    public LocalDateTime getAlertTime() {
+    public void setAlertId(String alertId) {
+        this.alertId = alertId;
+    }
+
+    public String getAlertTime() {
         return alertTime;
     }
 
-    public void setAlertTime(LocalDateTime alertTime) {
+    public void setAlertTime(String alertTime) {
         this.alertTime = alertTime;
+    }
+
+    public List<DayOfWeek> getAlertDays() {
+        return alertDays;
+    }
+
+    public void setAlertDays(List<DayOfWeek> alertDays) {
+        this.alertDays = alertDays;
     }
 }

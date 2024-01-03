@@ -14,22 +14,12 @@ import java.util.Optional;
 public class MedicationService {
 
     private MedicationRepository medicationRepository;
+    private AlertService alertService;
 
     @Autowired
-    public MedicationService(MedicationRepository medicationRepository){
+    public MedicationService(MedicationRepository medicationRepository, AlertService alertService){
         this.medicationRepository = medicationRepository;
-    }
-
-    public List<Medication> findByName(String medicationName) {
-        List<Medication> medications = new ArrayList<>();
-
-        List<Medication> allMedication = this.getAllMedications();
-        for (Medication medication : allMedication) {
-            if (medication.getName().equals(medicationName)) {
-                medications.add(medication);
-            }
-        }
-        return medications;
+        this.alertService = alertService;
     }
 
     public Medication findById(String id) {
@@ -44,6 +34,7 @@ public class MedicationService {
     public Medication addNewMedication(Medication medication) {
         MedicationRecord medicationRecord = makeMedicationRecord(medication);
         medicationRepository.save(medicationRecord);
+        alertService.addAlert(medication.getAlert());
         return medication;
     }
 
@@ -51,6 +42,7 @@ public class MedicationService {
         if(medicationRepository.existsById(medication.getName())){
             MedicationRecord medicationRecord = makeMedicationRecord(medication);
             medicationRepository.save(medicationRecord);
+            alertService.updateAlert(medication.getAlert());
         }
     }
 
@@ -71,6 +63,7 @@ public class MedicationService {
         if(medicationRecord.isPresent()){
             MedicationRecord deleteRecord = medicationRecord.get();
             medicationRepository.delete(deleteRecord);
+            alertService.deleteAlert(deleteRecord);
         }
     }
     private MedicationRecord makeMedicationRecord(Medication medication){
