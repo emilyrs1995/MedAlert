@@ -112,11 +112,11 @@ public class AlertService {
             switch (day){
                 case MONDAY: valueMap.put(alert.getAlertId(), alert); break;
                 case TUESDAY: valueMap.put(alert.getAlertId(), alert); break;
-                case WEDNESDAY: valueMap.put(alert.getAlertId(), alert);
-                case THURSDAY: valueMap.put(alert.getAlertId(), alert);
-                case FRIDAY: valueMap.put(alert.getAlertId(), alert);
-                case SATURDAY: valueMap.put(alert.getAlertId(), alert);
-                case SUNDAY: valueMap.put(alert.getAlertId(), alert);
+                case WEDNESDAY: valueMap.put(alert.getAlertId(), alert); break;
+                case THURSDAY: valueMap.put(alert.getAlertId(), alert); break;
+                case FRIDAY: valueMap.put(alert.getAlertId(), alert); break;
+                case SATURDAY: valueMap.put(alert.getAlertId(), alert); break;
+                case SUNDAY: valueMap.put(alert.getAlertId(), alert); break;
             }
             alertMap.put(day,valueMap);
         }
