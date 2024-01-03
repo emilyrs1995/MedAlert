@@ -2,7 +2,6 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.AlertRepository;
 import com.kenzie.appserver.repositories.model.AlertRecord;
-import com.kenzie.appserver.repositories.model.MedicationRecord;
 import com.kenzie.appserver.service.model.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +36,8 @@ public class AlertService {
         }
     }
 
-    public void deleteAlert(MedicationRecord record){
-        Optional<AlertRecord> alertRecord = alertRepository.findById(record.getId());
+    public void deleteAlert(String Id){
+        Optional<AlertRecord> alertRecord = alertRepository.findById(Id);
         if(alertRecord.isPresent()){
             AlertRecord deleteRecord = alertRecord.get();
             alertRepository.delete(deleteRecord);

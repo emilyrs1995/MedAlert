@@ -3,7 +3,6 @@ package com.kenzie.appserver.controller.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -20,10 +19,6 @@ public class MedicationResponse {
     private String alertTime;
     @JsonProperty("alertDays")
     private List<String> alertDays;
-
-    // Emily S. 12/21 - saving in case we revert back to using the LocalDateTime
-//    @JsonProperty("alertDays")
-//    private List<LocalDateTime> alertDays;
 
     public String getName() {
         return name;
@@ -73,13 +68,4 @@ public class MedicationResponse {
         this.alertDays = alertDays;
     }
 
-
-    // Emily S. 12/21 - saving in case we revert back to using the LocalDateTime
-//    public List<LocalDateTime> getAlertDays() {
-//        return alertDays;
-//    }
-//
-//    public void setAlertDays(List<LocalDateTime> alertDays) {
-//        this.alertDays = alertDays;
-//    }
 }
