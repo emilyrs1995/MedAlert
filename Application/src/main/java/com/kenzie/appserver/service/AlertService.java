@@ -22,11 +22,7 @@ public class AlertService {
     public AlertService(AlertRepository alertRepository){
         this.alertRepository = alertRepository;
         // Check for null here?
-//        if (alertRepository.findAll() != null) {
-//            alertMap = makeAlertMap(makeAlertList(alertRepository.findAll()));
-//        } else {
-            alertMap = makeAlertMap(new ArrayList<>());
-//        }
+        this.alertMap = makeAlertMap(new ArrayList<>());
     }
     public void addAlert(Alert alert){
         AlertRecord alertRecord = makeAlertRecord(alert);

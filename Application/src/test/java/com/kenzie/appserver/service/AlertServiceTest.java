@@ -76,7 +76,7 @@ public class AlertServiceTest {
         alertDays.add("Sat");
 
         Alert alert = new Alert(name, dosage, alertTime, alertDays);
-        when(alertRepository.existsById(name)).thenReturn(true);
+        when(alertRepository.existsById(alert.getAlertId())).thenReturn(true);
 
         ArgumentCaptor<AlertRecord> alertRecordCaptor = ArgumentCaptor.forClass(AlertRecord.class);
 
