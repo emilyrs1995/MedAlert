@@ -1,5 +1,8 @@
 package com.kenzie.appserver.service.model;
 
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Medication {
@@ -21,7 +24,7 @@ public class Medication {
         this.dosage = dosage;
         this.alertTime = alertTime;
         this.alertDays = alertDays;
-        this.alert = new Alert(name, dosage, alertTime, alertDays);
+        this.alert = new Alert(name, id, dosage, alertTime, convertDays(alertDays));
     }
 
     public String getName() {
@@ -55,4 +58,21 @@ public class Medication {
 //    public List<LocalDateTime> getAlertDays() {
 //        return alertDays;
 //    }
+    private List<DayOfWeek> convertDays(List<String> days){
+        List<DayOfWeek> newDays = new ArrayList<>();
+
+        for (String day: days){
+            switch (day.toLowerCase()){
+                case "mon": newDays.add(DayOfWeek.MONDAY); break;
+                case "tues": newDays.add(DayOfWeek.TUESDAY); break;
+                case "wed": newDays.add(DayOfWeek.WEDNESDAY); break;
+                case "thurs": newDays.add(DayOfWeek.THURSDAY); break;
+                case "fri": newDays.add(DayOfWeek.FRIDAY); break;
+                case "sat": newDays.add(DayOfWeek.SATURDAY); break;
+                case "sun": newDays.add(DayOfWeek.SUNDAY); break;
+            }
+        }
+        Collections.sort(newDays);
+        return newDays;
+    }
 }

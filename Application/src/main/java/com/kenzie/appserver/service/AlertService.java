@@ -2,6 +2,7 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.AlertRepository;
 import com.kenzie.appserver.repositories.model.AlertRecord;
+import com.kenzie.appserver.repositories.model.MedicationRecord;
 import com.kenzie.appserver.service.model.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,21 +10,23 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
 public class AlertService {
     private AlertRepository alertRepository;
+    // The alert is stored by alertId to avoid mixing up to different times of the same medication if they  are on the same day
     private Map<DayOfWeek, Map<String, Alert>> alertMap;
     @Autowired
     public AlertService(AlertRepository alertRepository){
         this.alertRepository = alertRepository;
         // Check for null here?
-        alertMap = makeAlertMap(makeAlertList(alertRepository.findAll()));
+//        if (alertRepository.findAll() != null) {
+//            alertMap = makeAlertMap(makeAlertList(alertRepository.findAll()));
+//        } else {
+            alertMap = makeAlertMap(new ArrayList<>());
+//        }
     }
     public void addAlert(Alert alert){
         AlertRecord alertRecord = makeAlertRecord(alert);
@@ -38,7 +41,15 @@ public class AlertService {
         }
     }
 
-//    public void deleteAlert(){}
+    public void deleteAlert(MedicationRecord record){
+        Optional<AlertRecord> alertRecord = alertRepository.findById(record.getId());
+        if(alertRecord.isPresent()){
+            AlertRecord deleteRecord = alertRecord.get();
+            alertRepository.delete(deleteRecord);
+            removeAlertFromMap(new Alert(deleteRecord.getMedicationName(), deleteRecord.getAlertId(),
+                    deleteRecord.getDosage(), deleteRecord.getAlertTime(), deleteRecord.getAlertDays()));
+        }
+    }
 
     public List<String> checkForAlert(){
         // Returns alarm with messages
@@ -87,8 +98,6 @@ public class AlertService {
                 }
             }
         }
-
-
         return returnMap;
     }
     private Map<DayOfWeek, Map<String, Alert>> makeAlertKeys(){
@@ -117,6 +126,24 @@ public class AlertService {
                 case FRIDAY: valueMap.put(alert.getAlertId(), alert); break;
                 case SATURDAY: valueMap.put(alert.getAlertId(), alert); break;
                 case SUNDAY: valueMap.put(alert.getAlertId(), alert); break;
+            }
+            alertMap.put(day,valueMap);
+        }
+
+    }
+    private void removeAlertFromMap(Alert alert){
+        Map<String, Alert> valueMap;
+
+        for(DayOfWeek day: alert.getAlertDays()){
+            valueMap = alertMap.get(day);
+            switch (day){
+                case MONDAY: valueMap.remove(alert.getAlertId(), alert); break;
+                case TUESDAY: valueMap.remove(alert.getAlertId(), alert); break;
+                case WEDNESDAY: valueMap.remove(alert.getAlertId(), alert); break;
+                case THURSDAY: valueMap.remove(alert.getAlertId(), alert); break;
+                case FRIDAY: valueMap.remove(alert.getAlertId(), alert); break;
+                case SATURDAY: valueMap.remove(alert.getAlertId(), alert); break;
+                case SUNDAY: valueMap.remove(alert.getAlertId(), alert); break;
             }
             alertMap.put(day,valueMap);
         }

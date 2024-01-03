@@ -63,6 +63,7 @@ public class MedicationService {
         if(medicationRecord.isPresent()){
             MedicationRecord deleteRecord = medicationRecord.get();
             medicationRepository.delete(deleteRecord);
+            alertService.deleteAlert(deleteRecord);
         }
     }
     private MedicationRecord makeMedicationRecord(Medication medication){
