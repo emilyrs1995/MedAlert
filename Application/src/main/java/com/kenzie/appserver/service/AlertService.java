@@ -18,15 +18,15 @@ public class AlertService {
     // The alert is stored by alertId to avoid mixing up to different times of the same medication if they  are on the same day
     private AlertMap alertMap;
     @Autowired
-    public AlertService(AlertRepository alertRepository){
+    public AlertService(AlertRepository alertRepository, AlertMap alertMap){
         this.alertRepository = alertRepository;
         // Check for null here?
-        this.alertMap = new AlertMap();
+        this.alertMap = alertMap;
     }
     public void addAlert(Alert alert){
         AlertRecord alertRecord = makeAlertRecord(alert);
-        alertRepository.save(alertRecord);
         alertMap.addAlertToMap(alert);
+        alertRepository.save(alertRecord);
     }
     public void updateAlert(Alert alert){
         if(alertRepository.existsById(alert.getAlertId())){
@@ -55,9 +55,13 @@ public class AlertService {
         DayOfWeek day = date.getDayOfWeek();
         Map<String, Alert> alerts = alertMap.getAlertMap().get(day);
         // Iterate through map, and check if alertTime == current time
-        for(Alert alert: alerts.values()){
-            if(LocalTime.now().toString().contains(alert.getAlertTime())){
-                alertStatus.add(String.format("It is time for you to take %s of your medication [%s]", alert.getDosage(), alert.getMedicationName()));
+        // Emily S. 1/3 - added null check
+        if (alerts != null) {
+            for(Alert alert: alerts.values()){
+                if(LocalTime.now().toString().contains(alert.getAlertTime())){
+                    alertStatus.add(String.format("It is time for you to take %s of your medication [%s]",
+                            alert.getDosage(), alert.getMedicationName()));
+                }
             }
         }
 
