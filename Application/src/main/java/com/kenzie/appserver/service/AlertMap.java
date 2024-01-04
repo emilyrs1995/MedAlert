@@ -94,8 +94,9 @@ public class AlertMap {
         return alerts;
     }
 
-    public Map<DayOfWeek, Map<String, Alert>> getAlertMap() {
-        return alertMap;
+    public Map<String, Alert> getAlertMap(DayOfWeek day) {
+        Map<String, Alert> stringAlertMap = alertMap.get(day);
+        return stringAlertMap;
     }
 
 }
