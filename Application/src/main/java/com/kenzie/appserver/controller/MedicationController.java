@@ -44,7 +44,7 @@ public class MedicationController {
     public ResponseEntity<MedicationResponse> getMedication(@PathVariable("medication") String medicationName) {
         Medication medication = medicationService.findById(medicationName.toLowerCase());
         if (medication == null) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
         MedicationResponse response = this.createMedicationResponse(medication);
 

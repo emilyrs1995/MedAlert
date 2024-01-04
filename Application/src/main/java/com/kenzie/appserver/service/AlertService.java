@@ -23,11 +23,13 @@ public class AlertService {
         // Check for null here?
         this.alertMap = alertMap;
     }
+
     public void addAlert(Alert alert){
         AlertRecord alertRecord = makeAlertRecord(alert);
         alertMap.addAlertToMap(alert);
         alertRepository.save(alertRecord);
     }
+
     public void updateAlert(Alert alert){
         if(alertRepository.existsById(alert.getAlertId())){
             AlertRecord alertRecord = makeAlertRecord(alert);
@@ -61,12 +63,11 @@ public class AlertService {
         if (alerts != null) {
             for (Alert alert : alerts.values()) {
                 if (currentTime.substring(0, 5).contains(alert.getAlertTime())) {
-                    alertStatus.add(String.format("It is time for you to take %s of your medication [%s]", alert.getDosage(), alert.getMedicationName()));
-
+                    alertStatus.add(String.format("It is time for you to take %s of your medication [%s]",
+                            alert.getDosage(), alert.getMedicationName()));
                 }
             }
         }
-
         return alertStatus;
     }
 

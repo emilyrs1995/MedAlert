@@ -22,7 +22,7 @@ public class DayOfWeekConverter implements DynamoDBTypeConverter<String, List<Da
         List<DayOfWeek> convertedDays = new ArrayList<>();
 
         for (String day : dayArray) {
-            convertedDays.add(DayOfWeek.valueOf(day));
+            convertedDays.add(DayOfWeek.valueOf(day.trim()));
         }
 
         return convertedDays;

@@ -70,7 +70,7 @@ public class MedicationService {
     private MedicationRecord makeMedicationRecord(Medication medication){
         MedicationRecord medicationRecord = new MedicationRecord();
         medicationRecord.setId(medication.getId());
-        medicationRecord.setName(medication.getName());
+        medicationRecord.setName(medication.getName().toLowerCase());
         medicationRecord.setTimeOfDay(medication.getTimeOfDay());
         medicationRecord.setDosage(medication.getDosage());
         medicationRecord.setAlertTime(medication.getAlertTime());
