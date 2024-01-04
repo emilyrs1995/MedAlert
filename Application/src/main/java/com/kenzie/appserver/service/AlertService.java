@@ -55,7 +55,7 @@ public class AlertService {
         // Set current DayOfWeek
         LocalDate date = LocalDate.now();
         DayOfWeek day = date.getDayOfWeek();
-        Map<String, Alert> alerts = alertMap.getAlertMap().get(day);
+        Map<String, Alert> alerts = alertMap.getAlertMap(day);
         String currentTime = LocalTime.now().toString();
 
         // Iterate through map, and check if alertTime == current time

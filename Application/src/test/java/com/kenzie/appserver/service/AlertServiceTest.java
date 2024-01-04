@@ -232,7 +232,7 @@ public class AlertServiceTest {
         alerts.put(alert1.getAlertId(), alert1);
         alerts.put(alert2.getAlertId(), alert2);
 
-        when(alertMap.getAlertMap().get(day)).thenReturn(alerts);
+        when(alertMap.getAlertMap(day)).thenReturn(alerts);
 
         // WHEN
         List<String> result = alertService.checkForAlert();
