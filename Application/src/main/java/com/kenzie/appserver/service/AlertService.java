@@ -54,9 +54,11 @@ public class AlertService {
         LocalDate date = LocalDate.now();
         DayOfWeek day = date.getDayOfWeek();
         Map<String, Alert> alerts = alertMap.getAlertMap().get(day);
+        String currentTime = LocalTime.now().toString();
+
         // Iterate through map, and check if alertTime == current time
         for(Alert alert: alerts.values()){
-            if(LocalTime.now().toString().contains(alert.getAlertTime())){
+            if(currentTime.substring(0,5).contains(alert.getAlertTime())){
                 alertStatus.add(String.format("It is time for you to take %s of your medication [%s]", alert.getDosage(), alert.getMedicationName()));
             }
         }
