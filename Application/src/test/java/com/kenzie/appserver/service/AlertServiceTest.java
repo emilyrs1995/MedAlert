@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 import static org.mockito.Mockito.*;
@@ -23,6 +25,9 @@ public class AlertServiceTest {
 
     @Mock
     private AlertRepository alertRepository;
+
+    @Mock
+    private AlertMap alertMap;
 
     @BeforeEach
     void setup() {
@@ -53,6 +58,7 @@ public class AlertServiceTest {
         alertService.addAlert(alert);
 
         // THEN
+        verify(alertMap).addAlertToMap(alert);
         verify(alertRepository).save(alertRecordCaptor.capture());
         AlertRecord record = alertRecordCaptor.getValue();
 
@@ -89,6 +95,8 @@ public class AlertServiceTest {
 
         Assertions.assertNotNull(record);
         Assertions.assertEquals(3, record.getAlertDays().size());
+
+        verify(alertMap).addAlertToMap(alert);
     }
 
     @Test
@@ -102,6 +110,7 @@ public class AlertServiceTest {
 
         // THEN
         verify(alertRepository, never()).save(new AlertRecord());
+        verify(alertMap, never()).addAlertToMap(alert);
     }
 
     /** ------------------------------------------------------------------------
@@ -134,6 +143,7 @@ public class AlertServiceTest {
 
         // THEN
         verify(alertRepository).delete(alertRecord);
+        verify(alertMap).removeAlertFromMap(any());
     }
 
     @Test
@@ -164,6 +174,7 @@ public class AlertServiceTest {
 
         // THEN
         verify(alertRepository).delete(alertRecord);
+        verify(alertMap).removeAlertFromMap(any());
     }
 
     @Test
@@ -177,5 +188,56 @@ public class AlertServiceTest {
 
         // THEN
         verify(alertRepository, never()).delete(new AlertRecord());
+        verify(alertMap, never()).removeAlertFromMap(new Alert());
+    }
+
+    /** ------------------------------------------------------------------------
+     *  alertService.checkForAlert
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    void checkForAlert_withReadyAlerts_returnsListOfReadyAlerts() {
+        // GIVEN
+        LocalDate date = LocalDate.now();
+        DayOfWeek day = date.getDayOfWeek();
+
+        String name1 = "Aspirin";
+        String Id1 = UUID.randomUUID().toString();
+        String dosage1 = "1 pill";
+        String alertTime1 = LocalTime.now().toString().substring(0, 5);
+        List<DayOfWeek> alertDays1 = new ArrayList<>();
+        alertDays1.add(DayOfWeek.MONDAY);
+        alertDays1.add(DayOfWeek.TUESDAY);
+        alertDays1.add(DayOfWeek.WEDNESDAY);
+        alertDays1.add(DayOfWeek.THURSDAY);
+        alertDays1.add(DayOfWeek.FRIDAY);
+        alertDays1.add(DayOfWeek.SATURDAY);
+        alertDays1.add(DayOfWeek.SUNDAY);
+        Alert alert1 = new Alert(name1, Id1, dosage1, alertTime1, alertDays1);
+
+        String name2 = "Tylenol";
+        String Id2 = UUID.randomUUID().toString();
+        String dosage2 = "2 capsules";
+        String alertTime2 = LocalTime.now().toString().substring(0, 5);
+        List<DayOfWeek> alertDays2 = new ArrayList<>();
+        alertDays2.add(DayOfWeek.MONDAY);
+        alertDays2.add(DayOfWeek.TUESDAY);
+        alertDays2.add(DayOfWeek.WEDNESDAY);
+        alertDays2.add(DayOfWeek.THURSDAY);
+        alertDays2.add(DayOfWeek.FRIDAY);
+        alertDays2.add(DayOfWeek.SATURDAY);
+        alertDays2.add(DayOfWeek.SUNDAY);
+        Alert alert2 = new Alert(name2, Id2, dosage2, alertTime2, alertDays2);
+
+        Map<String, Alert> alerts = new HashMap<>();
+        alerts.put(alert1.getAlertId(), alert1);
+        alerts.put(alert2.getAlertId(), alert2);
+
+        when(alertMap.getAlertMap().get(day)).thenReturn(alerts);
+
+        // WHEN
+        List<String> result = alertService.checkForAlert();
+
+        // THEN
+        Assertions.assertEquals(2, result.size());
     }
 }

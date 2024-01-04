@@ -98,7 +98,7 @@ public class MedicationServiceTest {
         MedicationRecord record = medicationRecordCaptor.getValue();
 
         Assertions.assertNotNull(record);
-        Assertions.assertEquals(record.getName(), medication.getName(), "Expected medication name to match.");
+        Assertions.assertEquals(record.getName(), medication.getName().toLowerCase(), "Expected medication name to match.");
         Assertions.assertEquals(record.getId(), medication.getId(), "Expected medication id to match.");
         Assertions.assertEquals(record.getTimeOfDay(), medication.getTimeOfDay(), "Expected medication timeOfDay to match.");
         Assertions.assertEquals(record.getDosage(), medication.getDosage(), "Expected medication dosage to match.");
@@ -136,7 +136,7 @@ public class MedicationServiceTest {
         MedicationRecord record = medicationRecordCaptor.getValue();
 
         Assertions.assertNotNull(record);
-        Assertions.assertEquals(record.getName(), medication.getName(), "Expected medication name to match.");
+        Assertions.assertEquals(record.getName(), medication.getName().toLowerCase(), "Expected medication name to match.");
         Assertions.assertEquals(record.getId(), medication.getId(), "Expected medication id to match.");
         Assertions.assertEquals(record.getTimeOfDay(), medication.getTimeOfDay(), "Expected medication timeOfDay to match.");
         Assertions.assertEquals(record.getDosage(), medication.getDosage(), "Expected medication dosage to match.");

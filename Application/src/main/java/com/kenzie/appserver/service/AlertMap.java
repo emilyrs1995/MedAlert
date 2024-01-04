@@ -2,6 +2,8 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.repositories.model.AlertRecord;
 import com.kenzie.appserver.service.model.Alert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -9,9 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class AlertMap {
     private Map<DayOfWeek, Map<String, Alert>> alertMap = new HashMap<>();
 
+    @Autowired
     public AlertMap(){
         alertMap.put(DayOfWeek.MONDAY, new HashMap<>());
         alertMap.put(DayOfWeek.TUESDAY, new HashMap<>());
