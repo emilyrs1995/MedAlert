@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.AlertMap;
 import com.kenzie.appserver.repositories.AlertRepository;
 import com.kenzie.appserver.repositories.model.AlertRecord;
 import com.kenzie.appserver.service.model.Alert;

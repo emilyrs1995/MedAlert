@@ -1,4 +1,4 @@
-package com.kenzie.appserver.service;
+package com.kenzie.appserver;
 
 import com.kenzie.appserver.repositories.model.AlertRecord;
 import com.kenzie.appserver.service.model.Alert;
