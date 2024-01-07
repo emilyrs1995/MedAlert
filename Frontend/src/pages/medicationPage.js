@@ -201,7 +201,7 @@ class MedicationPage extends BaseClass {
                     const h4Element = parentListItem.querySelector('h4');
 
                     if (h4Element) {
-                        const h4Text = h4Element.textContent.trim();
+                        h4Text = h4Element.textContent.trim();
                         console.log('Text content of <h4>:', h4Text);
                     } else {
                         console.error('No <h4> element found in the parentListItem.');
@@ -295,6 +295,7 @@ class MedicationPage extends BaseClass {
             event.preventDefault();
 
             const medicationNameToDelete = h4Text;
+            console.log(medicationNameToDelete);
 
             try {
                 const response = await this.client.deleteMedication(medicationNameToDelete);
