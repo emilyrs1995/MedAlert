@@ -20,6 +20,18 @@ class MedicationPage extends BaseClass {
         document.getElementById('FormId').addEventListener('submit', (event) => this.onCreate(event));
         this.client = new MedicationClient();
 
+        setInterval(async () => {  var alarmStatus = await this.client.checkAlert();
+
+            if (alarmStatus.length > 0){
+                var alarmMessage = "";
+                for(var alarm of alarmStatus) {
+                alarmMessage = alarmMessage.concat(alarm, "\n")
+//                    console.log(alarm);
+                }
+                alert(alarmMessage);
+            }
+            },50000);
+
         try {
             const allMedications = await this.client.getMedicationList();
             console.log('Fetched medication list:', allMedications);
@@ -242,7 +254,6 @@ class MedicationPage extends BaseClass {
         }
     }
 }
-
 /**
  * Main method to run when the page contents have loaded.
  */
