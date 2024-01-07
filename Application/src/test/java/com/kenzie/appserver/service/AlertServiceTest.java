@@ -101,7 +101,7 @@ public class AlertServiceTest {
     }
 
     @Test
-    void updateAlert_withInvalidAlert_updatesAlert() {
+    void updateAlert_withInvalidAlert_doesNotUpdateAlert() {
         // GIVEN
         Alert alert = new Alert(null, null, null, null, null);
         when(alertRepository.existsById(alert.getMedicationName())).thenReturn(false);
@@ -240,5 +240,68 @@ public class AlertServiceTest {
 
         // THEN
         Assertions.assertEquals(2, result.size());
+    }
+
+    @Test
+    void checkForAlert_withUnreadyAlerts_returnsEmptyList() {
+        // GIVEN
+        LocalDate date = LocalDate.now();
+        DayOfWeek day = date.getDayOfWeek();
+
+        String name1 = "Aspirin";
+        String Id1 = UUID.randomUUID().toString();
+        String dosage1 = "1 pill";
+        String alertTime1 = LocalTime.now().plusMinutes(15).toString().substring(0, 5);
+        List<DayOfWeek> alertDays1 = new ArrayList<>();
+        alertDays1.add(DayOfWeek.MONDAY);
+        alertDays1.add(DayOfWeek.TUESDAY);
+        alertDays1.add(DayOfWeek.WEDNESDAY);
+        alertDays1.add(DayOfWeek.THURSDAY);
+        alertDays1.add(DayOfWeek.FRIDAY);
+        alertDays1.add(DayOfWeek.SATURDAY);
+        alertDays1.add(DayOfWeek.SUNDAY);
+        Alert alert1 = new Alert(name1, Id1, dosage1, alertTime1, alertDays1);
+
+        String name2 = "Tylenol";
+        String Id2 = UUID.randomUUID().toString();
+        String dosage2 = "2 capsules";
+        String alertTime2 = LocalTime.now().plusMinutes(15).toString().substring(0, 5);
+        List<DayOfWeek> alertDays2 = new ArrayList<>();
+        alertDays2.add(DayOfWeek.MONDAY);
+        alertDays2.add(DayOfWeek.TUESDAY);
+        alertDays2.add(DayOfWeek.WEDNESDAY);
+        alertDays2.add(DayOfWeek.THURSDAY);
+        alertDays2.add(DayOfWeek.FRIDAY);
+        alertDays2.add(DayOfWeek.SATURDAY);
+        alertDays2.add(DayOfWeek.SUNDAY);
+        Alert alert2 = new Alert(name2, Id2, dosage2, alertTime2, alertDays2);
+
+        Map<String, Alert> alerts = new HashMap<>();
+        alerts.put(alert1.getAlertId(), alert1);
+        alerts.put(alert2.getAlertId(), alert2);
+
+        when(alertMap.getAlertMap(day)).thenReturn(alerts);
+
+        // WHEN
+        List<String> result = alertService.checkForAlert();
+
+        // THEN
+        Assertions.assertEquals(0, result.size());
+    }
+
+    @Test
+    void checkForAlert_withEmptyMap_doesNotReturnAlerts() {
+        // GIVEN
+        LocalDate date = LocalDate.now();
+        DayOfWeek day = date.getDayOfWeek();
+
+        when(alertMap.getAlertMap(day)).thenReturn(new HashMap<>());
+
+        // WHEN
+        List<String> result = alertService.checkForAlert();
+
+        // THEN
+
+        Assertions.assertEquals(0, result.size());
     }
 }

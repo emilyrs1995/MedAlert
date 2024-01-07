@@ -60,8 +60,8 @@ public class AlertService {
         String currentTime = LocalTime.now().toString();
 
         // Iterate through map, and check if alertTime == current time
-        // Emily S. 1/3 - added null check
-        if (alerts != null) {
+        // Emily S. 1/3 - changed to .isEmpty
+        if (!alerts.isEmpty()) {
             for (Alert alert : alerts.values()) {
                 if (currentTime.substring(0, 5).contains(alert.getAlertTime())) {
                     alertStatus.add(String.format("It is time for you to take %s of your medication %s",
