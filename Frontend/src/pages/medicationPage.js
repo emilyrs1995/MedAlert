@@ -13,6 +13,7 @@ class MedicationPage extends BaseClass {
         super();
         this.bindClassMethods(['onCreate', 'renderTodaysMedication', 'renderAllMedicationList', 'onDelete'], this);
         this.dataStore = new DataStore();
+        this.renderedMedications = new Set();
     }
 
     /**
@@ -43,11 +44,20 @@ class MedicationPage extends BaseClass {
 
             this.dataStore.set("allMedications", allMedications);
 
-            this.renderTodaysMedication();
+            await this.renderTodaysMedication();
             await this.renderAllMedicationList();
         } catch (error) {
             console.error('Error fetching medication list:', error);
         }
+
+        document.getElementById('nav').addEventListener('click', () => {
+                    console.log('Page loaded or refreshed');
+                    this.getAllMedication().then(() => {
+                        const refreshedMedications = this.dataStore.get("allMedications");
+                        console.log('Refreshed medication list:', refreshedMedications);
+                        this.renderAllMedicationList();
+                    });
+                });
 
         window.addEventListener('load', () => {
             console.log('Page loaded or refreshed');
@@ -134,7 +144,7 @@ class MedicationPage extends BaseClass {
 
     async renderAllMedicationList() {
         const allMedications = this.dataStore.get("allMedications");
-        console.log("allMedications:", allMedications);
+        // console.log("allMedications:", allMedications);
 
         if (Array.isArray(allMedications)) {
             const listPage = document.getElementById('listPage');
@@ -145,6 +155,8 @@ class MedicationPage extends BaseClass {
             const modalId = 'medicationModal';  // Unique ID for the modal
 
             for (const medication of allMedications) {
+            if (!this.renderedMedications.has(medication.name)) {
+                                this.renderedMedications.add(medication.name);
                 const medicationDays = Array.isArray(medication.alertDays) ? medication.alertDays : [medication.alertDays];
                 const formattedDays = medicationDays.map(day => day.trim());
                 const formattedDaysList = medicationDays.join(', ');
@@ -186,6 +198,7 @@ class MedicationPage extends BaseClass {
                 })(contador);
 
                 contador++;
+                }
             }
 
             // Function to handle click events on child elements
