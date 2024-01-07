@@ -10,7 +10,7 @@ import axios from 'axios'
 export default class MedicationClient extends BaseClass {
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', /*'getMedication',*/ 'createMedication', 'getMedicationList'/*, 'updateMedication', 'deleteMedication'*/];
+        const methodsToBind = ['clientLoaded', 'getMedication', 'createMedication', 'getMedicationList', 'deleteMedication'/*, 'updateMedication', 'deleteMedication'*/];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -27,10 +27,18 @@ export default class MedicationClient extends BaseClass {
         }
     }
 
-
-    async getMedication(id, errorCallback) {
+    async deleteMedication(medication, errorCallback) {
         try {
-            const response = await this.client.get(`/medication/${id}`);
+            const response = await this.client.delete(`/medication/${medication}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("deleteMedication", error, errorCallback)
+        }
+    }
+
+    async getMedication(medication, errorCallback) {
+        try {
+            const response = await this.client.get(`/medication/${medication}`);
             return response.data;
         } catch (error) {
             this.handleError("getMedication", error, errorCallback)
@@ -73,12 +81,13 @@ export default class MedicationClient extends BaseClass {
     }
 
     handleError(method, error, errorCallback) {
-        console.error(method + " failed - " + error);
-        if (error.response.data.message !== undefined) {
+        console.error(method + " failed - ", error);
+        if (error.response && error.response.data && error.response.data.message !== undefined) {
             console.error(error.response.data.message);
         }
         if (errorCallback) {
-            errorCallback(method + " failed - " +error);
+            errorCallback(method + " failed - " + error);
         }
     }
+
 }
