@@ -64,7 +64,7 @@ public class AlertService {
         if (alerts != null) {
             for (Alert alert : alerts.values()) {
                 if (currentTime.substring(0, 5).contains(alert.getAlertTime())) {
-                    alertStatus.add(String.format("It is time for you to take %s of your medication [%s]",
+                    alertStatus.add(String.format("It is time for you to take %s of your medication %s",
                             alert.getDosage(), alert.getMedicationName()));
                 }
             }

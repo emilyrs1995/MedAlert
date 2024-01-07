@@ -63,6 +63,15 @@ export default class MedicationClient extends BaseClass {
         }
     }
 
+    async checkAlert(errorCallback){
+        try {
+            const response = await this.client.get(`/alert/alertStatus`)
+            return response.data
+        } catch (error) {
+            this.handleError("checkAlert", error, errorCallback)
+        }
+    }
+
     handleError(method, error, errorCallback) {
         console.error(method + " failed - " + error);
         if (error.response.data.message !== undefined) {
