@@ -71,15 +71,15 @@ class MedicationPage extends BaseClass {
                     });
                 });
 
-        window.addEventListener('load', () => {
-            console.log('Page loaded or refreshed');
-            this.getAllMedication().then(() => {
-                const refreshedMedications = this.dataStore.get("allMedications");
-                console.log('Refreshed medication list:', refreshedMedications);
-                this.renderTodaysMedication();
-                this.renderAllMedicationList();
-            });
-        });
+//        window.addEventListener('load', () => {
+//            console.log('Page loaded or refreshed');
+//            this.getAllMedication().then(() => {
+//                const refreshedMedications = this.dataStore.get("allMedications");
+//                console.log('Refreshed medication list:', refreshedMedications);
+//                this.renderTodaysMedication();
+//                this.renderAllMedicationList();
+//            });
+//        });
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
@@ -284,7 +284,7 @@ class MedicationPage extends BaseClass {
 
                 $wrapper.find('.modal-action').click(function() {
                     const result = $(this).data('confirm');
-                    $wrapper.removeClass('active').delay(500).queue(function() {
+                    $wrapper.removeClass('active').delay(200).queue(function() {
                         $wrapper.remove();
                         callback(result);
                     });
@@ -327,6 +327,7 @@ class MedicationPage extends BaseClass {
                 this.dataStore.set("medication", response);
                 console.log("Medication deleted successfully:", response);
                 // Handle success, e.g., update UI or show a success message
+                $("li").filter(`:contains(${medicationNameToDelete})`).remove();
             } catch (error) {
                 console.error('Error deleting medication:', error);
                 // Handle error, e.g., show an error message
@@ -334,9 +335,12 @@ class MedicationPage extends BaseClass {
     }
 
     async getAllMedication() {
-        const allMedications = await this.client.getMedicationList()
-
-        this.dataStore.set("allMedications", allMedications);
+        try {
+            const allMedications = await this.client.getMedicationList();
+            this.dataStore.set("allMedications", allMedications);
+        } catch (error) {
+            console.error("Error fetching medication list:", error);
+        }
     }
 
     async onCreate(event) {
