@@ -10,7 +10,7 @@ import axios from 'axios'
 export default class MedicationClient extends BaseClass {
     constructor(props = {}){
         super();
-        const methodsToBind = ['clientLoaded', 'getMedication', 'createMedication', 'getMedicationList', 'deleteMedication'/*, 'updateMedication', 'deleteMedication'*/];
+        const methodsToBind = ['clientLoaded', 'getMedication', 'createMedication', 'getMedicationList', 'deleteMedication', 'checkAlert'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
