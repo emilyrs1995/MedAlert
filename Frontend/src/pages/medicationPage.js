@@ -11,7 +11,7 @@ class MedicationPage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['onCreate', 'renderTodaysMedication', 'renderAllMedicationList', 'onDelete'], this);
+        this.bindClassMethods(['onCreate', 'renderTodaysMedication', 'renderAllMedicationList', 'onDelete', 'onGet', 'getAllMedication'], this);
         this.dataStore = new DataStore();
         this.renderedMedications = new Set();
     }
@@ -22,6 +22,8 @@ class MedicationPage extends BaseClass {
     async mount() {
         document.getElementById('FormId').addEventListener('submit', (event) => this.onCreate(event));
         const listPage = document.getElementById('listPage');
+
+        document.getElementById('SearchId').addEventListener('submit', (event) => this.onGet(event));
 
         // Event listener for clicks on dynamically generated elements
         document.addEventListener('click', (event) => {
@@ -68,18 +70,19 @@ class MedicationPage extends BaseClass {
                         const refreshedMedications = this.dataStore.get("allMedications");
                         console.log('Refreshed medication list:', refreshedMedications);
                         this.renderAllMedicationList();
+                        $(".list_dsp_true").show();
                     });
                 });
 
-        window.addEventListener('load', () => {
-            console.log('Page loaded or refreshed');
-            this.getAllMedication().then(() => {
-                const refreshedMedications = this.dataStore.get("allMedications");
-                console.log('Refreshed medication list:', refreshedMedications);
-                this.renderTodaysMedication();
-                this.renderAllMedicationList();
-            });
-        });
+//        window.addEventListener('load', () => {
+//            console.log('Page loaded or refreshed');
+//            this.getAllMedication().then(() => {
+//                const refreshedMedications = this.dataStore.get("allMedications");
+//                console.log('Refreshed medication list:', refreshedMedications);
+//                this.renderTodaysMedication();
+//                this.renderAllMedicationList();
+//            });
+//        });
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
@@ -261,6 +264,12 @@ class MedicationPage extends BaseClass {
             console.log("Finished rendering");
         }
         function toggleModal(text, callback, modalId) {
+        // Check if a modal is already open
+            if ($("#modal-wrapper").length > 0) {
+                console.log('Modal is already open.');
+                return;
+            }
+
                 const $wrapper = $(`<div id="modal-wrapper"></div>`).appendTo('body');
                 const $modal = $(`
                     <div id="modal-confirmation" class="modal-confirmation">
@@ -302,14 +311,17 @@ class MedicationPage extends BaseClass {
     async onGet(event) {
         // Prevent the page from refreshing on form submit
         event.preventDefault();
+        $(".list_dsp_true").hide();
 
-        let id = document.querySelector('.input_title_desc').value;
+        let id = document.querySelector('.input_med_name').value;
         this.dataStore.set("medication", null);
 
         let result = await this.client.getMedication(id, this.errorHandler);
         this.dataStore.set("medication", result);
+
         if (result) {
-            this.showMessage(`Got ${result.name}!`)
+            this.showMessage(`Got ${result.name}!`);
+            $("li").filter(`:contains(${result.name})`).show();
         } else {
             this.errorHandler("Error doing GET!  Try again...");
         }
@@ -327,6 +339,7 @@ class MedicationPage extends BaseClass {
                 this.dataStore.set("medication", response);
                 console.log("Medication deleted successfully:", response);
                 // Handle success, e.g., update UI or show a success message
+                $("li").filter(`:contains(${medicationNameToDelete})`).remove();
             } catch (error) {
                 console.error('Error deleting medication:', error);
                 // Handle error, e.g., show an error message
@@ -334,9 +347,12 @@ class MedicationPage extends BaseClass {
     }
 
     async getAllMedication() {
-        const allMedications = await this.client.getMedicationList()
-
-        this.dataStore.set("allMedications", allMedications);
+        try {
+            const allMedications = await this.client.getMedicationList();
+            this.dataStore.set("allMedications", allMedications);
+        } catch (error) {
+            console.error("Error fetching medication list:", error);
+        }
     }
 
     async onCreate(event) {
@@ -374,6 +390,7 @@ class MedicationPage extends BaseClass {
         try {
             const createdMedication = await this.client.createMedication(name, timeOfDay, dosage, alertTime, alertDaysFormatted);
             this.dataStore.set("createMedication", createdMedication);
+            this.showMessage(`Created ${createdMedication.name}!`);
 
             // Immediately render the medication after it's created
             const currentDate = new Date();
