@@ -127,7 +127,68 @@ public class MedicationControllerTest {
     }
 
     @Test
-    public void updateMedication_PutSuccessful() throws Exception {
+    public void createMedication_withInvalidName_createUnsuccessful() throws Exception {
+        // GIVEN
+        String name = "abcdefghijklmnopqrstuvwxyz";
+        String timeOfDay = "AFTERNOON";
+        String dosage = "1 pill";
+        String alertTime = LocalDateTime.now().toString();
+        List<String> alertDays = new ArrayList<>();
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
+
+        MedicationCreateRequest medicationCreateRequest = new MedicationCreateRequest();
+        medicationCreateRequest.setName(name);
+        medicationCreateRequest.setTimeOfDay(timeOfDay);
+        medicationCreateRequest.setDosage(dosage);
+        medicationCreateRequest.setAlertTime(alertTime);
+        medicationCreateRequest.setAlertDays(alertDays);
+
+        mapper.registerModule(new JavaTimeModule());
+
+        // WHEN
+        mvc.perform(post("/medication")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(medicationCreateRequest)))
+        // THEN
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    public void createMedication_withMoreInvalidDosage_createUnsuccessful() throws Exception {
+        // GIVEN
+        String name = "Advil1234";
+        String timeOfDay = "AFTERNOON";
+        String dosage = "@#$%^";
+        String alertTime = LocalDateTime.now().toString();
+        List<String> alertDays = new ArrayList<>();
+        alertDays.add("Mon");
+        alertDays.add("Wed");
+        alertDays.add("Fri");
+
+        MedicationCreateRequest medicationCreateRequest = new MedicationCreateRequest();
+        medicationCreateRequest.setName(name);
+        medicationCreateRequest.setTimeOfDay(timeOfDay);
+        medicationCreateRequest.setDosage(dosage);
+        medicationCreateRequest.setAlertTime(alertTime);
+        medicationCreateRequest.setAlertDays(alertDays);
+
+        mapper.registerModule(new JavaTimeModule());
+
+        // WHEN
+        mvc.perform(post("/medication")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(medicationCreateRequest)))
+                // THEN
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updateMedication_putSuccessful() throws Exception {
         // GIVEN
         String name = "Tylenol3333";
         String id = UUID.randomUUID().toString();
@@ -227,7 +288,7 @@ public class MedicationControllerTest {
     }
 
     @Test
-    public void deleteMedication_DeleteSuccessful() throws Exception {
+    public void deleteMedication_deleteSuccessful() throws Exception {
         // GIVEN
         String name = "Tylenol4444";
         String id = UUID.randomUUID().toString();
