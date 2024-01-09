@@ -1,6 +1,5 @@
 package com.kenzie.appserver.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.service.AlertService;
@@ -17,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IntegrationTest
-public class AlertControllerTest {
+public class AlertControllerUnsuccessfulTest {
 
     @Autowired
     private MockMvc mvc;
@@ -30,38 +29,6 @@ public class AlertControllerTest {
     private AlertService alertService;
 
     private final ObjectMapper mapper = new ObjectMapper();
-
-    @Test
-    public void checkAlertStatus_withReadyAlert_returnsOK() throws Exception {
-        // GIVEN
-        String name = "Aspirin";
-        String Id = UUID.randomUUID().toString();
-        String dosage = "1 pill";
-        String alertTime = LocalTime.now().toString().substring(0, 5);
-        List<DayOfWeek> alertDays = new ArrayList<>();
-        alertDays.add(DayOfWeek.MONDAY);
-        alertDays.add(DayOfWeek.TUESDAY);
-        alertDays.add(DayOfWeek.WEDNESDAY);
-        alertDays.add(DayOfWeek.THURSDAY);
-        alertDays.add(DayOfWeek.FRIDAY);
-        alertDays.add(DayOfWeek.SATURDAY);
-        alertDays.add(DayOfWeek.SUNDAY);
-        Alert alert = new Alert(name, Id, dosage, alertTime, alertDays);
-        // persisted Alert
-        alertService.addAlert(alert);
-
-        // WHEN
-        String response = mvc.perform(get("/alert/alertStatus")
-                    .accept(MediaType.APPLICATION_JSON))
-        // THEN
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        List<String> responseList = mapper.readValue(response, new TypeReference<List<String>>() {});
-        Assertions.assertEquals(1, responseList.size());
-        Assertions.assertTrue(responseList.get(0).contains(name));
-        Assertions.assertTrue(responseList.get(0).contains(dosage));
-    }
 
     @Test
     public void checkAlertStatus_withUnreadyAlert_returnsNoContent() throws Exception {
@@ -82,13 +49,15 @@ public class AlertControllerTest {
         // persisted Alert
         alertService.addAlert(alert);
 
+
         // WHEN
         String response = mvc.perform(get("/alert/alertStatus")
                         .accept(MediaType.APPLICATION_JSON))
-        // THEN
+                // THEN
                 .andExpect(status().isNoContent())
                 .andReturn().getResponse().getContentAsString();
 
         Assertions.assertTrue(response.isEmpty());
     }
+
 }
