@@ -46,11 +46,10 @@ class MedicationPage extends BaseClass {
                 var alarmMessage = "";
                 for(var alarm of alarmStatus) {
                 alarmMessage = alarmMessage.concat(alarm, "\n")
-//                    console.log(alarm);
                 }
                 alert(alarmMessage);
             }
-            },50000);
+            },30000);
 
         try {
             const allMedications = await this.client.getMedicationList();
