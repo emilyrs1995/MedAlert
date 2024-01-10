@@ -27,14 +27,15 @@ module.exports = {
     //for example if you sent the request /example/bob to the backend, it will be converted into
     //http://localhost:5001/example/bob and sent to the backend that way.
     //uncomment the following proxy section to make the example work
-//    proxy: [
-//          {
-//            context: [
-//              '/example',
-//            ],
-//            target: 'http://localhost:5001'
-//          }
-//        ]
+    proxy: [
+          {
+            context: [
+              '/medication',
+              '/alert',
+            ],
+            target: 'http://localhost:5001'
+          }
+        ]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -48,18 +49,18 @@ module.exports = {
           from: path.resolve('src/css'),
           to: path.resolve("dist/css")
         },
-//        {
-//          from: path.resolve('src/pages'),
-//          to: path.resolve('dist/pages')
-//        },
-       // {
-      //            from: path.resolve('src/api'),
-       //           to: path.resolve('dist/api')
-       //         },
-                //{
-                //                  from: path.resolve('src/util'),
-               //                   to: path.resolve('dist/util')
-                //                }
+        {
+          from: path.resolve('src/pages'),
+          to: path.resolve('dist/pages')
+        },
+        {
+                  from: path.resolve('src/api'),
+                  to: path.resolve('dist/api')
+                },
+                {
+                                  from: path.resolve('src/util'),
+                                  to: path.resolve('dist/util')
+                                }
       ]
     }),
     new CleanWebpackPlugin()
