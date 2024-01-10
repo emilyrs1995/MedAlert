@@ -6,12 +6,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Medication {
-    private final String name; // name of medication, partition key
-    private final String id; // optional sort key
-    private final String timeOfDay; // Morning, Afternoon, or Evening
-    private final String dosage; // ex. 1 pill
-    private final String alertTime; // ex. 8:00 am
-    private final List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
+    private final String name;
+    private final String id;
+    private final String timeOfDay;
+    private final String dosage;
+    private final String alertTime;
+    private final List<String> alertDays;
     private final Alert alert;
 
     public Medication(String name, String id, String timeOfDay, String dosage, String alertTime, List<String> alertDays) {

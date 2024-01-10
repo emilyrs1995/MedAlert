@@ -98,13 +98,13 @@ public class MedicationController {
     }
 
     private boolean verifyInput(String string) {
-        String allowedStrings = "1234567890abcdefghijklmnopqrstupvwxyz";
-        StringBuilder validatedString = new StringBuilder();
-        validatedString.append(string.toLowerCase());
-
         if (string.length() > 20) {
             return false;
         }
+
+        String allowedStrings = "1234567890abcdefghijklmnopqrstupvwxyz";
+        StringBuilder validatedString = new StringBuilder();
+        validatedString.append(string.toLowerCase());
 
         for (int i = 0; i < validatedString.length(); i++) {
             if(!allowedStrings.contains(validatedString.substring(i, i + 1))) {

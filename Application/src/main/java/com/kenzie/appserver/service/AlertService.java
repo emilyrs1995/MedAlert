@@ -16,12 +16,11 @@ import java.util.*;
 @Service
 public class AlertService {
     private AlertRepository alertRepository;
-    // The alert is stored by alertId to avoid mixing up to different times of the same medication if they  are on the same day
+
     private AlertMap alertMap;
     @Autowired
     public AlertService(AlertRepository alertRepository, AlertMap alertMap){
         this.alertRepository = alertRepository;
-        // Check for null here?
         this.alertMap = alertMap;
     }
 
@@ -60,7 +59,6 @@ public class AlertService {
         String currentTime = LocalTime.now().toString();
 
         // Iterate through map, and check if alertTime == current time
-        // Emily S. 1/3 - changed to .isEmpty
         if (!alerts.isEmpty()) {
             for (Alert alert : alerts.values()) {
                 if (currentTime.substring(0, 5).contains(alert.getAlertTime())) {
@@ -81,9 +79,4 @@ public class AlertService {
         alertRecord.setAlertDays(alert.getAlertDays());
         return alertRecord;
     }
-
-    // May use as calling point from frontend
-//    private Map<DayOfWeek, Map<String, Alert>> makeAlertMap(List<Alert> alertList){
-//    }
-
 }

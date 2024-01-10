@@ -1,10 +1,7 @@
 package com.kenzie.appserver.service.model;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class Alert {
     private String medicationName;
