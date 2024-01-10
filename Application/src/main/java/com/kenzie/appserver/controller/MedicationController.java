@@ -31,7 +31,7 @@ public class MedicationController {
             return ResponseEntity.badRequest().build();
         }
 
-        Medication medication = new Medication(createRequest.getName(), randomUUID().toString(),
+        Medication medication = new Medication(createRequest.getName().trim(), randomUUID().toString(),
                 createRequest.getTimeOfDay(), createRequest.getDosage(), createRequest.getAlertTime(), createRequest.getAlertDays());
         medicationService.addNewMedication(medication);
 
@@ -81,7 +81,8 @@ public class MedicationController {
 
     @DeleteMapping("/{medication}")
     public ResponseEntity deleteMedication(@PathVariable("medication") String medication) {
-        medicationService.deleteMedication(medication.toLowerCase());
+        String s = medication.toLowerCase().trim();
+        medicationService.deleteMedication(s);
         return ResponseEntity.noContent().build();
     }
 

@@ -63,7 +63,7 @@ public class Medication {
         for (String day: days){
             switch (day.toLowerCase()){
                 case "mon": newDays.add(DayOfWeek.MONDAY); break;
-                case "tues": newDays.add(DayOfWeek.TUESDAY); break;
+                case "tue": newDays.add(DayOfWeek.TUESDAY); break;
                 case "wed": newDays.add(DayOfWeek.WEDNESDAY); break;
                 case "thu": newDays.add(DayOfWeek.THURSDAY); break;
                 case "fri": newDays.add(DayOfWeek.FRIDAY); break;
