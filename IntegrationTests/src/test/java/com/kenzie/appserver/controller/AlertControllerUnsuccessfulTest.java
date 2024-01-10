@@ -22,6 +22,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class AlertControllerUnsuccessfulTest {
 
+    /* This test does not ~always~ pass when running the Jacoco command. In the AlertControllerSuccessfulTest I create
+    * a new alert with the current time and test that the alert controller correctly receives a response from the
+    * alertService. However, this test (AlertControllerUnsuccessfulTest) is testing with an alert that is for 15 minutes
+    * from now and confirms that the controller does not receive a response. The problem is that when I run the Jacoco
+    * command all the tests run within a few milliseconds of each other so on some occasions the alert that I created in
+    * the AlertControllerSuccessfulTest is still valid and returned even if I delete it within that test. With that said,
+    * running all the tests individually always passes */
+
     @Autowired
     private MockMvc mvc;
 
