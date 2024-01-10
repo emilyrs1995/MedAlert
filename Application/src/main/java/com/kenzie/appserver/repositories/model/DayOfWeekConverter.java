@@ -11,8 +11,6 @@ import java.util.List;
 
 public class DayOfWeekConverter implements DynamoDBTypeConverter<String, List<DayOfWeek>> {
 
-    // Emily S. 12/21 - Used by the DynamoDb table "Alerts" to convert/unconvert string and DayOfWeek object
-
     /*Citing this question on StackOverflow for an example of how to use the ObjectMapper - AWS DynamoDB: Could not unconvert attribute error
     * URL - https://stackoverflow.com/questions/47926783/aws-dynamodb-could-not-unconvert-attribute-error */
 

@@ -12,7 +12,6 @@ import java.util.Objects;
 @DynamoDBTable(tableName = "Alerts")
 public class AlertRecord {
 
-    // Emily S. 12/21 - Alert Record for saving individual alerts in a table
     private String medicationName;
     private String alertId;
     private String dosage;
@@ -37,7 +36,6 @@ public class AlertRecord {
         this.medicationName = medicationName;
     }
 
-    // Emily S. 1/2 - changed this to a DynamoDBAttribute instead of a hash key
     @DynamoDBAttribute(attributeName = "Dosage")
     public String getDosage() {
         return dosage;
@@ -56,7 +54,6 @@ public class AlertRecord {
         this.alertTime = alertTime;
     }
 
-    // Emily S. 1/2 - added the converter so that DynamoDB can read the DayOfWeek value
     @DynamoDBTypeConverted(converter = DayOfWeekConverter.class)
     @DynamoDBAttribute(attributeName = "AlertDays")
     public List<DayOfWeek> getAlertDays() {

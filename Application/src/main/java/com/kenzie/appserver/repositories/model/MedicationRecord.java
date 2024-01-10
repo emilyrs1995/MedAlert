@@ -3,30 +3,25 @@ package com.kenzie.appserver.repositories.model;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-/* Emily S (12/15/23)*/
 @DynamoDBTable(tableName = "Medication")
 public class MedicationRecord {
 
-    private String name; // name of medication, partition key
-    private String id; // optional sort key
-    private String timeOfDay; // Morning, Afternoon, or Evening
-    private String dosage; // ex. 1 pill
-    private String alertTime; // ex. 8:00 am
-    private List<String> alertDays; // Days of week for alert to be repeated, ex. Every Monday and Wednesday
+    private String name;
+    private String id;
+    private String timeOfDay;
+    private String dosage;
+    private String alertTime;
+    private List<String> alertDays;
 
     @DynamoDBHashKey(attributeName = "Name")
     public String getName() {
         return name;
     }
 
-    // 12/19/2023 Joseph
-    // I changed from rangekey, so local host could start
     @DynamoDBAttribute(attributeName = "Id")
     public String getId() {
         return id;

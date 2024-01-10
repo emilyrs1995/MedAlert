@@ -63,7 +63,6 @@ public class MedicationService {
         if(medicationRecord.isPresent()){
             MedicationRecord deleteRecord = medicationRecord.get();
             medicationRepository.delete(deleteRecord);
-            // Emily S. 1/3 - changed the method to only take the id instead of the whole record
             alertService.deleteAlert(deleteRecord.getId());
         }
     }
